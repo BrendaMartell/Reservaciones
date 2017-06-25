@@ -5,7 +5,7 @@ const Schema = use('Schema')
 class PersonsTableSchema extends Schema {
 
   up () {
-    this.create('persons', (table) => {
+    this.create('people', (table) => {
         table.increments()
         table.varchar('nombres',30)
         table.varchar('apellidos',30)
@@ -16,7 +16,7 @@ class PersonsTableSchema extends Schema {
   }
 
   down () {
-    this.table('persons', (table) => {
+    this.table('people', (table) => {
       // opposite of up goes here
     })
   }
