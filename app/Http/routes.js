@@ -18,3 +18,6 @@
 const Route = use('Route')
 
 Route.on('/').render('inicio')
+Route.on('/cartelera').render('cartelera')
+Route.on('/nosotros').render('nosotros')
+Route.on('/galeria').render('galeria')
