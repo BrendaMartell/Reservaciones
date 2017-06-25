@@ -5,8 +5,8 @@
   "scripts": {
     "start": "echo \"\\033[31mWARN: 'start' will be depreciated soon. Instead use 'npm run serve'\" && npm run serve",
     "dev": "echo \"\\033[31mWARN: 'dev' will be depreciated soon. Instead use 'npm run serve:dev'\" && npm run serve:dev",
-    "serve:dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
-    "serve": "node server.js",
+    "serve:dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x \"node --harmony_proxies\" server.js",
+    "serve": "node --harmony_proxies server.js",
     "lint": "standard"
   },
   "author": "",
