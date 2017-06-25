@@ -18,14 +18,14 @@
     "adonis-auth": "^1.0.5",
     "adonis-commands": "^2.1.5",
     "adonis-fold": "^3.0.3",
-    "adonis-framework": "^3.0.10",
+    "adonis-framework": "^3.0.13",
     "adonis-lucid": "^3.0.14",
     "adonis-middleware": "^1.0.11",
     "adonis-validation-provider": "^3.0.5",
     "adonis-websocket": "^1.0.4",
     "mongodb": "^2.2.29",
     "pg": "^6.4.0",
-    "youch": "^2.0.4"
+    "youch": "^2.0.5"
   },
   "standard": {
     "global": [
