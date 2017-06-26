@@ -5,7 +5,7 @@ const Hash = use('Hash')
 
 class User extends Lucid {
 
-    static boot () {
+    /*static boot () {
         super.boot()
         this.addHook('beforeCreate', function * (next) {
             this.password = yield Hash.make(this.password)
@@ -15,7 +15,7 @@ class User extends Lucid {
 
     apiTokens () {
         return this.hasMany('App/Model/Token')
-    }
+    }*/
     
     static get validacionesUsuario(){
         return {
