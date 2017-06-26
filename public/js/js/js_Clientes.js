@@ -2,20 +2,23 @@ $(document).ready(function(){
     var tab=document.getElementById('tbody');
     var Pnl_Registro=document.getElementById('Pnl_Registro');
     var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+    var Movimiento ="";
     Carga_Datos();
     Deshabilita_Registro();
     
     $("#Btn_Registra").click(function(){
         Habilita_Registro();
         $("#nombres").focus();
+        $("#pwd").show();
+        Movimiento="Alta";
+        
     });//final btin registra click
     
     $("#Btn_Cancela").click(function(){
         Deshabilita_Registro();
     });//final btin registra click
     
-    $('#tbody').on('click', '.odd', function(e) {
-        e.preventDefault();
+    $(".Btn_Editar").click(function(){
         var id=$(this).attr("id");
         var valores="";
         var empleado = [];
@@ -30,6 +33,28 @@ $(document).ready(function(){
         $("#numero_aut").val(empleado[3]);
         $("#email").val(empleado[4]);
         $("#password").val("*******");
+        $(".pwd").hide()
+        alert(valores);
+    })
+    
+    $('#tbody').on('click', '.Btn_Editar', function(e) {
+        e.preventDefault();
+        Movimiento="Editar"
+        var id=$(this).attr("id");
+        var valores="";
+        var empleado = [];
+        empleado.push(id);
+        $(this).parents("tr").find("td").each(function(){
+            empleado.push($(this).html());
+            valores+=$(this).html()+"\n";
+        });
+        Habilita_Registro();
+        $("#nombres").val(empleado[1]);
+        $("#apellidos").val(empleado[2]);
+        $("#numero_aut").val(empleado[3]);
+        $("#email").val(empleado[4]);
+        $("#password").val("*******");
+        $(".pwd").hide()
         alert(valores);
     });
     
@@ -57,6 +82,7 @@ $(document).ready(function(){
                 '<td class="apellidos">'+ response[a].apellidos +'</td>'+
                 '<td class="numero">'+ response[a].numero_aut +'</td>'+
                 '<td class="email">'+ response[a].email +'</td>'+
+                '<td class="Btn_Editar"  id="'+ response[a].id_persona +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>'+
                 '</tr>';
             });// final each
         });//final ajax
