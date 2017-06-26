@@ -3,6 +3,7 @@ const Validator = use('Validator')
 const Hash = use('Hash')
 const User = use('App/Model/User')
 const Persona = use('App/Model/Person')
+const Database = use('Database')
 
 class UsersController {
     
@@ -55,8 +56,9 @@ class UsersController {
         }
     }
     
-    * TodosUsuarios(request,response){
-        const users = yield User.all()
+    * Clientes(request,response){
+        const users = yield Database.from('users')
+        .innerJoin('people','people.id','users.id_persona').where('users.id_rol',1);
         yield response.json(users)
     }
 

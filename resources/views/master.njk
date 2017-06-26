@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>Cine GO | Administracion</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="admin_template/plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="admin_template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="admin_template/plugins/datatables/dataTables.bootstrap.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,9 +46,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>Cine</b>GO</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Cine</b>GO</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -103,18 +104,31 @@
         </div>
       </form>
       <ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">Menu de Navegacion</li>
         <li class="active treeview menu-open">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-table"></i> <span>Catalogos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i>Dashboard v1</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            <li class="active"><a href="/cat_ctes"><i class="fa fa-circle-o"></i>Clientes</a></li>
+            <li><a href="/cat_emp"><i class="fa fa-circle-o"></i>Empleados</a></li>
+            <li><a href="/cat_fns"><i class="fa fa-circle-o"></i>Funciones</a></li>
+            <li><a href="/cat_pelicula"><i class="fa fa-circle-o"></i>Peliculas</a></li>
+            <li><a href="/cat_salas"><i class="fa fa-circle-o"></i>Salas</a></li>
+            <li><a href="/cat_tfns"><i class="fa fa-circle-o"></i>Tipos de Funcion</a></li>
+            <li><a href="/cat_tboleto"><i class="fa fa-circle-o"></i>Tipos de Boletos</a></li>
           </ul>
+        </li>
+        <li class="active treeview menu-open">
+          <a href="#">
+            <i class="fa fa-th"></i> <span>Cartelera</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
         </li>
       </ul>
     </section>
@@ -122,16 +136,14 @@
 
   <div class="content-wrapper" style="min-height: 916px;">
     <section class="content-header">
-      <h1>
+      <h1 id="EnPantalla">
         Dashboard
         <small>Control panel</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
     </section>
-    <section class="content"></section>
+    <section class="content">
+        {% block content %}{% endblock %}
+    </section>
   </div>
 
 </div>
@@ -157,6 +169,11 @@
 <script src="admin_template/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="admin_template/plugins/knob/jquery.knob.js"></script>
+    
+<script src="admin_template/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="admin_template/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="admin_template/plugins/fastclick/fastclick.js"></script>
+    
 <!-- daterangepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="admin_template/plugins/daterangepicker/daterangepicker.js"></script>
