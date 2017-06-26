@@ -16,8 +16,7 @@ class Person extends Lucid {
         return {
             nombres:'required',
             apellidos:'required',
-            email:'required',
-            status:'required'
+            email:'required'
         }
     }
     

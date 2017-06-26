@@ -52,6 +52,23 @@ class PersonsController {
             }
         }
     }
+    * update(request,response){
+        const data=request.all();
+        console.log(data)
+        const validacion = yield Validator.validate(data,Persona.validaActualizacion)
+        if(validacion.fails()){
+            yield response.send('No se ingresaron correctamente los datos')
+        }else{
+            const user = new User()
+            const persona= yield Persona.findBy('id', data.id_persona)
+            persona.nombres = data.nombres
+            persona.apellidos = data.apellidos
+            persona.email = data.email
+            const id_persona=yield persona.save()
+            yield response.redirect('/cat_ctes')
+            yield response.send("Actualizacion Exitosa")
+        }
+    }
     
     ext_tarjeta(){
         return tarjeta;

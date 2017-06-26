@@ -32,4 +32,5 @@ Route.get('cat_tboleto').render('cTipoBoleto');
 
 
 Route.post('nvo_cte', 'PersonsController.insert');
+Route.post('edit_cte', 'PersonsController.update');
 Route.post('all_ctes', 'UsersController.Clientes');

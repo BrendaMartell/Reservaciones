@@ -8,7 +8,7 @@
 
         <div class="box" id="Pnl_Tabla">
             <div class="box-header">
-              <h3 class="box-title">Clientes Registrados</h3>
+              <h3 class="box-title">Listado de Clientes Registrados</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -88,13 +88,14 @@
 
         <div class="box box-primary"  id="Pnl_Registro">
             <div class="box-header with-border">
-              <h3 class="box-title">Catalogo Clientes</h3>
+              <h3 class="box-title" id="titulo_formulario">Catalogo Clientes</h3>
             </div>
-            <form role="form" method="POST" action="/nvo_cte">
+            <form id="formulario" role="form" method="POST" action="/nvo_cte">
             {{ csrfField }}
               <div class="box-body">
                 <div class="form-group">
                   <label for="nombres">Nombres</label>
+                  <input type="hidden" class="form-control" id="id_persona" name="id_persona" placeholder="Ingrese su nombre(s)">
                   <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingrese su nombre(s)">
                 </div>
                 <div class="form-group">

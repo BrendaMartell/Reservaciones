@@ -2,43 +2,30 @@ $(document).ready(function(){
     var tab=document.getElementById('tbody');
     var Pnl_Registro=document.getElementById('Pnl_Registro');
     var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+    $("#EnPantalla").text("Clientes")
     var Movimiento ="";
     Carga_Datos();
     Deshabilita_Registro();
     
     $("#Btn_Registra").click(function(){
+        $("#titulo_formulario").text("Registro de Nuevo Cliente");
         Habilita_Registro();
         $("#nombres").focus();
         $("#pwd").show();
         Movimiento="Alta";
-        
+        $('#formulario').attr('action','/nvo_cte');
     });//final btin registra click
     
     $("#Btn_Cancela").click(function(){
         Deshabilita_Registro();
     });//final btin registra click
     
-    $(".Btn_Editar").click(function(){
-        var id=$(this).attr("id");
-        var valores="";
-        var empleado = [];
-        empleado.push(id);
-        $(this).find("td").each(function(){
-            empleado.push($(this).html());
-            valores+=$(this).html()+"\n";
-        });
-        Habilita_Registro();
-        $("#nombres").val(empleado[1]);
-        $("#apellidos").val(empleado[2]);
-        $("#numero_aut").val(empleado[3]);
-        $("#email").val(empleado[4]);
-        $("#password").val("*******");
-        $(".pwd").hide()
-        alert(valores);
-    })
+    
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
+        $("#titulo_formulario").text("Edicion de Registro");
+        $('#formulario').attr('action','/edit_cte');
         Movimiento="Editar"
         var id=$(this).attr("id");
         var valores="";
@@ -49,13 +36,13 @@ $(document).ready(function(){
             valores+=$(this).html()+"\n";
         });
         Habilita_Registro();
+        $("#id_persona").val(empleado[0]);
         $("#nombres").val(empleado[1]);
         $("#apellidos").val(empleado[2]);
         $("#numero_aut").val(empleado[3]);
         $("#email").val(empleado[4]);
         $("#password").val("*******");
         $(".pwd").hide()
-        alert(valores);
     });
     
     function Habilita_Registro(){
