@@ -34,3 +34,9 @@ Route.get('cat_tboleto').render('cTipoBoleto');
 Route.post('nvo_cte', 'PersonsController.insert');
 Route.post('edit_cte', 'PersonsController.update');
 Route.post('all_ctes', 'UsersController.Clientes');
+Route.post('filt_ctes', 'PersonsController.filt_ctes');
+
+Route.post('nvo_emp', 'PersonsController.insertEmp');
+Route.post('edit_emp', 'PersonsController.updateEmp');
+Route.post('all_emps', 'UsersController.Empleados');
+Route.post('filt_emp', 'PersonsController.filt_emps');

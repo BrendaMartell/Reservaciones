@@ -61,6 +61,12 @@ class UsersController {
         .innerJoin('people','people.id','users.id_persona').where('users.id_rol',1);
         yield response.json(users)
     }
+    
+    * Empleados(request,response){
+        const users = yield Database.from('users')
+        .innerJoin('people','people.id','users.id_persona').where('users.id_rol',2);
+        yield response.json(users)
+    }
 
     
     * logout(request, response) {
