@@ -1,4 +1,4 @@
-#!/usr/local/bin/node --harmony_proxies
+#!/usr/bin/env node
 'use strict'
 
 const kernel = require('./bootstrap/kernel')
