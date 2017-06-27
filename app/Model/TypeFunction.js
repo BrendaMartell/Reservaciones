@@ -10,8 +10,7 @@ class TypeFunction extends Lucid {
     }
     static get validaActualizacion(){
         return {
-            id:'required',
-            descripcion:'requiered'
+            id:'required'
         }
     }
 }

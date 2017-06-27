@@ -4,11 +4,11 @@
 <script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script src="js/js/js_Salas.js"></script>
+<script src="js/js/js_Roles.js"></script>
 
         <div class="box" id="Pnl_Tabla">
             <div class="box-header">
-              <h3 class="box-title">Listado de Salas Registradas</h3>
+              <h3 class="box-title">Listado de Roles Registrados</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -40,9 +40,7 @@
                             <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                                 <thead>
                                     <tr role="row">
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Sala</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 207px;">Tipo</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 143px;">Capacidad</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Descripcion de Rol</th>
                                         <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
                                         <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
                                     </tr>
@@ -51,9 +49,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th rowspan="1" colspan="1">Sala</th>
-                                    <th rowspan="1" colspan="1">Tipo</th>
-                                    <th rowspan="1" colspan="1">Capacidad</th>
+                                    <th rowspan="1" colspan="1">Descripcion de Rol</th>
                                     <th rowspan="1" colspan="1"></th>
                                     <th rowspan="1" colspan="1"></th>
                                 </tfoot>
@@ -88,24 +84,15 @@
 
         <div class="box box-primary"  id="Pnl_Registro" style="display: none;">
             <div class="box-header with-border">
-              <h3 class="box-title" id="titulo_formulario">Catalogo Salas</h3>
+              <h3 class="box-title" id="titulo_formulario">Catalogo Roles</h3>
             </div>
             <form id="formulario" role="form" method="POST" action="/nva_sala">
             {{ csrfField }}
               <div class="box-body">
                 <div class="form-group">
-                  <label for="alias">alias</label>
+                  <label for="alias"></label>
                   <input type="text" class="form-control" id="id" name="id" placeholder="id">
-                  <input style="text-transform: uppercase;" type="text" class="form-control" id="alias" name="alias" placeholder="Alias de Sala">
-                </div>
-                <div class="form-group">
-                  <label for="tipo">tipo</label>
-                  <input type="text" style="text-transform: uppercase;" class="form-control" id="tipo" name="tipo" placeholder="Tipo de Sala">
-                    
-                </div>
-                <div class="form-group">
-                  <label for="capacidad">Capacidad</label>
-                  <input type="number" class="form-control" id="capacidad" name="capacidad" placeholder="Capacidad de la Sala">
+                  <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion de Rol" style="text-transform: uppercase;">
                 </div>
               </div>
               <div class="box-footer">
