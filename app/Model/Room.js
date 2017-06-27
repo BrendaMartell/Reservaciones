@@ -12,10 +12,7 @@ class Room extends Lucid {
     }
     static get validaActualizacion(){
         return {
-            id:'required',
-            tipo:'requiered',
-            capacidad:'required',
-            alias:'requiered'
+            id:'required'
         }
     }
     static get validacionesEliminar(){

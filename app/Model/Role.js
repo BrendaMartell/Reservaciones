@@ -3,15 +3,14 @@
 const Lucid = use('Lucid')
 
 class Role extends Lucid {
-    static get insert(){
+    static get validaInsert(){
         return {
             descripcion:'required'
         }
     }
     static get validaActualizacion(){
         return {
-            id:'required',
-            descripcion:'requiered'
+            id:'required'
         }
     }
 }

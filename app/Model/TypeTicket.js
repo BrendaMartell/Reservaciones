@@ -11,9 +11,7 @@ class TypeTicket extends Lucid {
     }
     static get validaActualizacion(){
         return {
-            id:'required',
-            descripcion:'requiered',
-            costo:'required'
+            id:'required'
         }
     }
 }

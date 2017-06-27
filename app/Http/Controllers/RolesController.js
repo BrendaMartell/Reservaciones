@@ -1,6 +1,7 @@
 'use strict'
 
 const Rol = use("App/Model/Role")
+const Validator=use("Validator")
 
 class RolesController {
     * Registro(request,response){
@@ -10,22 +11,43 @@ class RolesController {
         yield response.redirect('/log')
     }
     
-    * Insert(request,response){
-        try{
-            const data = request.all()
-            const validacion = yield Validator.validate(data,Rol.insert)
-            if(validacion.fails()){
-                yield response.send('No se ingresaron los datos correctamente')
+    * insert(request,response){
+        const data=request.all();
+        const validacion = yield Validator.validate(data,Rol.validaInsert)
+        if(validacion.fails()){
+            yield response.send('No se ingresaron correctamente los datos')
+        }else{
+            const rol=new Rol();
+            rol.descripcion=data.descripcion;
+            const insercion=yield rol.save()
+            if(insercion==true){
+                yield response.redirect('/cat_roles')
             }else{
-                const rol = new Rol()
-                rol.id_user = data.descripcion
-                const r = yield rol.save()
-                yield response.send("Registro Exitoso");
+                yield response.send('Hubo un error al registrar, intentelo de nuevo.')
             }
-        }catch(e){
-            yield response.send("Hubo un error "+ e);
-        }        
+        }
     }
+    
+    * update(request,response){
+        const data=request.all();
+        console.log(data)
+        const validacion = yield Validator.validate(data,Rol.validaActualizacion)
+        if(validacion.fails()){
+            yield response.send('No se ingresaron correctamente los datos')
+        }else{
+            const rol= yield Rol.findBy('id', data.id)
+            rol.descripcion = data.descripcion
+            yield rol.save()
+            yield response.redirect('/cat_roles')
+        }
+    }
+    
+    * all(request,response){
+        const roles=yield Rol.all();
+        console.log(roles)
+        yield response.json(roles)
+    }
+    
     
 }
 

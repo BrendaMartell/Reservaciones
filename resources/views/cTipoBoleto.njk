@@ -1,0 +1,110 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/js/js_TipoBoleto.js"></script>
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Listado de Tipos de Boleto Registradas</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                                <!-- <label>Show 
+                                    <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> entries
+                                </label> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <!-- <label>Search:
+                                    <input type="search" class="form-control input-sm" placeholder="" aria-controls="example1">
+                                </label> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Tipo de Boleto</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Costo</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Tipo de Boleto</th>
+                                    <th rowspan="1" colspan="1">Costo</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-sm-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite"></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button previous disabled" id="example1_previous">
+                                            <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a>
+                                        </li>
+                                        <li class="paginate_button active">
+                                            <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">1</a>
+                                        </li>
+                                        <li class="paginate_button ">
+                                            <a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0">2</a>
+                                        </li>
+                                        <li class="paginate_button next" id="example1_next">
+                                            <a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" style="display: none;">
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Catalogo Tipos de Boleto</h3>
+            </div>
+            <form id="formulario" role="form" method="POST" action="/nva_sala">
+            {{ csrfField }}
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="descripcion"></label>
+                  <input type="text" class="form-control" id="id" name="id" placeholder="id">
+                  <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion" style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                  <label for="costo"></label>
+                  <input type="text" class="form-control" id="costo" name="costo" placeholder="Costo por unidad" style="text-transform: uppercase;">
+                </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" id="Btn_Cancela" class="btn btn-primary">Cancelar</button>
+              </div>
+            </form>
+          </div>
+{% endblock %}

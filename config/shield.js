@@ -80,9 +80,15 @@ module.exports = {
   | routes does have a valid token to execute an action.
   |
   */
+<<<<<<< HEAD
   csrf: {
     enable: true,
     methods: ['PUT', 'DELETE'],
+=======
+ csrf: {
+    enable: false,
+    methods: ['POST', 'PUT', 'DELETE'],
+>>>>>>> 49a8c5125a41bbbeff31b22d47e8e3c1da4d2a21
     filterUris: [],
     compareHostAndOrigin: true
   }
