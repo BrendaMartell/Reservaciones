@@ -6,23 +6,20 @@ Route.on('/').render('inicio')
 Route.on('/cartelera').render('cartelera')
 Route.on('/nosotros').render('nosotros')
 Route.on('/galeria').render('galeria')
-<<<<<<< HEAD
 Route.post('/Login/insertarAsiento','PlacesController.Insertar')
 Route.post('/Login/eliminarAsiento','PlacesController.Eliminar')
-=======
 
 
+Route.get('/insertAdmin','UsersController.insertAdmin')
+Route.get('/insertClient','UsersController.insertClient')
+Route.get('/cargarImagen','FuncionsController.imagenesPelicula')
 
 
-
->>>>>>> 49a8c5125a41bbbeff31b22d47e8e3c1da4d2a21
 //RUTAS DE BRENDA
 Route.on('/log').render('login')
 Route.get('/registra_Rol', 'RolesController.Registro');
 Route.get('/registra_Persona', 'PersonsController.Registro');
 Route.get('/registra_Usuario', 'UsersController.Registro');
-<<<<<<< HEAD
-=======
 
 Route.post('/login', 'UsersController.login');
 Route.get('/logout', 'UsersController.logout').middleware('auth');
@@ -69,4 +66,3 @@ Route.post('nvo_roles', 'RolesController.insert');
 Route.post('edit_roles', 'RolesController.update');
 Route.post('all_roles', 'RolesController.all');
 Route.post('filt_roles', 'RolesController.filt_roles');
->>>>>>> 49a8c5125a41bbbeff31b22d47e8e3c1da4d2a21

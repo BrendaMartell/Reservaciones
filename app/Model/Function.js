@@ -14,7 +14,7 @@ class Funcion extends Lucid {
         }
     }
     
-    set get validaActualizacion(){
+    static get validaActualizacion(){
         return {
             id:'required',
             fecha:'required',

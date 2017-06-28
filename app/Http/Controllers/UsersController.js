@@ -33,8 +33,13 @@ class UsersController {
         }
         const authCheck = yield request.auth.attempt(usuario, password);
         if (authCheck) {
-            console.log(request)
-            return response.redirect('/I');
+            var Tipo =  yield Database.table('users').join('roles','users.id_rol','=','roles.id').where({numero_aut:usuario})
+            if(Tipo[0].descripcion == 'Empleado'){
+                return response.redirect('/I');
+            }else{
+                return response.redirect('/')
+            }
+            
         }
         yield response.sendView('/log', { error: loginMessage.error });
     }
@@ -54,6 +59,24 @@ class UsersController {
             yield user.save()
             yield response.redirect('/')
         }
+    }
+    * insertAdmin(request,response){
+            const user = new User()
+            user.id_persona = 1
+            user.id_rol = 1
+            user.numero_aut = '12345'
+            user.password = yield Hash.make('12345')
+            user.estado= 'Activo'
+            yield user.save()
+    }
+    * insertClient(request,response){
+            const user = new User()
+            user.id_persona = 2
+            user.id_rol = 2
+            user.numero_aut = '1234567'
+            user.password = yield Hash.make('1234567')
+            user.estado= 'Activo'
+            yield user.save()
     }
     
     * Clientes(request,response){
