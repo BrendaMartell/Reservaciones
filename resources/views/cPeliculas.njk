@@ -1,0 +1,167 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/js/js_Peliculas.js"></script>
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Listado de Peliculas</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                                <!-- <label>Show 
+                                    <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> entries
+                                </label> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <!-- <label>Search:
+                                    <input type="search" class="form-control input-sm" placeholder="" aria-controls="example1">
+                                </label> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Pelicula</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 207px;">Sinopsis</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 143px;">Duracion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Clasifiacion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">URL Video</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Pelicula</th>
+                                    <th rowspan="1" colspan="1">Sinopsis</th>
+                                    <th rowspan="1" colspan="1">Duracion</th>
+                                    <th rowspan="1" colspan="1">Clasificacion</th>
+                                    <th rowspan="1" colspan="1">URL Video</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-sm-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite"></div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button previous disabled" id="example1_previous">
+                                            <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Previous</a>
+                                        </li>
+                                        <li class="paginate_button active">
+                                            <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0">1</a>
+                                        </li>
+                                        <li class="paginate_button ">
+                                            <a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0">2</a>
+                                        </li>
+                                        <li class="paginate_button next" id="example1_next">
+                                            <a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" >
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Catalogo Peliculas</h3>
+            </div>
+            <form id="formulario" role="form" method="POST" action="/nvo_cte">
+            {{ csrfField }}
+              <div class="box-body">
+                  <div class="row">
+                      <div class="c0l-lg-12 col-md-12">
+                          
+                          <!-- <div class="box box-widget">
+                            <div class="box-header with-border">
+                              <div class="user-block">
+                                <img class="img-circle" src="/imagenes/Portada.jpg" alt="User Image">
+                                <span class="username">
+                                    <div class="form-group">
+                                    <input type="text" class="form-control" id="id" name="nombre" placeholder="Escribe el Nombre de la Pelicula">
+                                    </div>
+                                </span>
+                              </div>
+                            </div> -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="img-responsive pad" src="/imagenes/Portada.jpg" alt="Photo" style=" width:250px; height:350px" id="Foto">
+                                        <div class="form-group">
+                                          <label for="imagen">Selecciona Imagen</label>
+                                          <input type="file" id="imagen">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                          <label for="nombre">Nombre de la Pelicula</label>
+                                            <input rows="4"  class="form-control" id="nombre" name="nombre" placeholder="Nombre de la Pelicula">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="sinopsis">Sinopsis</label>
+                                            <textarea rows="4"  class="form-control" id="sinopsis" name="sinopsis" placeholder="Sinopsis de la pelicula" rows="7"></textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="duracion">Duracion</label>
+                                                  <input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duracion en minutos">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                  <label for="clasificacion">Clasificacion</label>
+                                                  <input type="text" class="form-control" id="clasificacion" name="clasificacion" placeholder="Clasificacion">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="video">URL de Trailer</label>
+                                            <input rows="4"  class="form-control" id="video" name="video" placeholder="URL del Video"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                          </div>
+
+                          
+                          
+                          
+                          
+                      </div>
+                  </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" id="Btn_Cancela" class="btn btn-primary">Cancelar</button>
+              </div>
+            </form>
+          </div>
+{% endblock %}
