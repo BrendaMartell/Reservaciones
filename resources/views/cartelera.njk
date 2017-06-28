@@ -156,14 +156,35 @@
         
         <div class="section">
 	    	<div class="container">
-	            <div id="div-Asientos" class="div-imagen">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                </div>
+                 <div id="container">
+                  <!--Pestaña 1 activa por defecto-->
+                  <input id="tab-1" type="radio" name="tab-group" checked="checked" />
+                  <label for="tab-1">Pestaña 1</label>
+                  <!--Pestaña 2 inactiva por defecto-->
+                  <input id="tab-2" type="radio" name="tab-group" />
+                  <label for="tab-2">Pestaña 2</label>
+                  <!--Pestaña 3 inactiva por defecto-->
+                  <input id="tab-3" type="radio" name="tab-group" />
+                  <label for="tab-3">Pestaña 3</label>
+                  <!--Contenido a mostrar/ocultar-->
+                  <div id="content">
+                   <!--Contenido de la Pestaña 1-->
+                   <div id="content-1">
+
+                   </div>
+                   <!--Contenido de la Pestaña 2-->
+                   <div id="content-2">
+                       <br/>
+                       <br/>
+                       <br/>
+                       <br/>
+                   </div>
+                   <!--Contenido de la Pestaña 3-->
+                   <div id="content-3">
+
+                   </div>
+                  </div>
+                 </div>
 	    	</div>
 	    </div>
 
@@ -276,7 +297,7 @@
                 agregarAsientos();
                 function agregarAsientos(){
                     for(var i = 1; i<=50; i++){
-                        $('#div-Asientos').append('<div class="col-sm-1"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
+                        $('#content-2').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
                         logicaWebsocket(i)
                     } 
                 }
@@ -365,7 +386,76 @@
                 color:darkred;
                 background-color:forestgreen;
             }
-            
+            * {
+                 font-family: Arial, sans;
+                 margin: 0;
+                 padding: 0;
+                 box-sizing: border-box;
+                 -moz-box-sizing: border-box;
+                }
+                h1 {
+                 margin: 1em 0;
+                 text-align: center;
+                }
+                #container {
+                 margin: 0 auto;
+                 width: 50%; /* Ancho del contenedor */
+                }
+                #container input {
+                 height: 2.5em;
+                 visibility: hidden;
+                }
+                #container label {
+                 background: #f9f9f9; /* Fondo de las pestañas */
+                 border-radius: .25em .25em 0 0;
+                 color: #888; /* Color del texto de las pestañas */
+                 cursor: pointer;
+                 display: block;
+                 float: left;
+                 font-size: 1em; /* Tamaño del texto de las pestañas */
+                 height: 2.5em;
+                 line-height: 2.5em;
+                 margin-right: .25em;
+                 padding: 0 1.5em;
+                 text-align: center;
+                }
+                #container input:hover + label {
+                 background: #ddd; /* Fondo de las pestañas al pasar el cursor por encima */
+                 color: #666; /* Color del texto de las pestañas al pasar el cursor por encima */
+                }
+                #container input:checked + label {
+                 background: #f1f1f1; /* Fondo de las pestañas al presionar */
+                 color: #444; /* Color de las pestañas al presionar */
+                 position: relative;
+                 z-index: 6;
+                }
+                #content {
+                 background: #f1f1f1; /* Fondo del contenido */
+                 border-radius: 0 .25em .25em .25em;
+                 min-height: 20em; /* Alto del contenido */
+                 position: relative;
+                 width: 100%;
+                 z-index: 5;
+                }
+                #content #content-1,
+                #content #content-2,
+                #content #content-3{
+                    opacity: 0;
+                    padding: 1.5em;
+                    z-index: -100
+                    position: absolute
+                }
+                #content-2 {
+                    height:350px;
+                    background:url("/img/asientos-cine.jpg") center no-repeat;
+                    background-size:cover;
+                }
+                #container input#tab-1:checked ~ #content #content-1 ,
+                #container input#tab-2:checked ~ #content #content-2 ,
+                #container input#tab-3:checked ~ #content #content-3 {
+                 opacity: 1;
+                 z-index: 100;
+                }    
         </style>
     </body>
     </html>
