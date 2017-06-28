@@ -12,7 +12,7 @@ class MoviesTableSchema extends Schema {
             table.varchar('sinopsis',600)
             table.varchar('imagen', 150)
             table.varchar('video',500)
-            table.varchar('clasificacion',1)
+            table.varchar('clasificacion',5)
             table.timestamps()
         })
     }

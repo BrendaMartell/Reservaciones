@@ -40,11 +40,12 @@
                             <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                                 <thead>
                                     <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100;">Imagen</th>
                                         <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Pelicula</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 207px;">Sinopsis</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 143px;">Duracion</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Clasifiacion</th>
-                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">URL Video</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 500px;">Sinopsis</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 70px;">Duracion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 70px;">Clasifiacion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;">URL Video</th>
                                         <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
                                     </tr>
                                 </thead>
@@ -52,6 +53,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <th rowspan="1" colspan="1">Imagen</th>
                                     <th rowspan="1" colspan="1">Pelicula</th>
                                     <th rowspan="1" colspan="1">Sinopsis</th>
                                     <th rowspan="1" colspan="1">Duracion</th>
@@ -92,7 +94,7 @@
             <div class="box-header with-border">
               <h3 class="box-title" id="titulo_formulario">Catalogo Peliculas</h3>
             </div>
-            <form id="formulario" role="form" method="POST" action="/nvo_cte">
+            <form id="formulario" method="POST" action="/nvo_cte"  enctype="multipart/form-data">
             {{ csrfField }}
               <div class="box-body">
                   <div class="row">
@@ -112,10 +114,12 @@
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img class="img-responsive pad" src="/imagenes/Portada.jpg" alt="Photo" style=" width:250px; height:350px" id="Foto">
+                                        <img class="img-responsive pad" src="/imagenes/nodisponible.png" alt="Photo" style=" width:250px; height:350px" id="Foto">
                                         <div class="form-group">
                                           <label for="imagen">Selecciona Imagen</label>
-                                          <input type="file" id="imagen">
+                                          <input type="file" id="imagen" name="imagen">
+                                          <input type="hidden" id="nombre-imagen" name="nombre-imagen">
+                                          <input type="hidden" id="id" name="id">
                                         </div>
                                     </div>
                                     <div class="col-md-9">
@@ -157,7 +161,6 @@
                           
                       </div>
                   </div>
-              </div>
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <button type="button" id="Btn_Cancela" class="btn btn-primary">Cancelar</button>

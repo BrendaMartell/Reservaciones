@@ -14,14 +14,9 @@ class Movie extends Lucid {
         }
     }
     
-    set get validaActualizacion(){
+    static get validaActualizacion(){
         return {
-            nombre:'required',
-            duracion:'required',
-            sinopsis:'required',
-            imagen:'required',
-            video:'required',
-            clasificacion:'required'
+            id:'required'
         }
     }
 }

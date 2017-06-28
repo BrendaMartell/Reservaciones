@@ -66,3 +66,9 @@ Route.post('nvo_roles', 'RolesController.insert');
 Route.post('edit_roles', 'RolesController.update');
 Route.post('all_roles', 'RolesController.all');
 Route.post('filt_roles', 'RolesController.filt_roles');
+
+
+Route.post('nvo_pelicula', 'MoviesController.insert');
+Route.post('edit_pelicula', 'MoviesController.update');
+Route.post('all_pelicula', 'MoviesController.all');
+Route.post('filt_pelicula', 'MoviesController.filt_roles');

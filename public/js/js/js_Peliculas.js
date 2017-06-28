@@ -38,11 +38,14 @@ $(document).ready(function(){
         });
         Habilita_Registro();
         $("#id").val(id);
-        $("#nombre").val(pelicula[1]);
-        $("#sinopsis").val(pelicula[2]);
-        $("#duracion").val(pelicula[3]);
-        $("#clasificacion").val(pelicula[4]);
-        $("#video").val(pelicula[5]);
+        document.getElementById('Foto').src = "/imagenes/"+pelicula[2];
+        $("#nombre-imagen").val(pelicula[2]);
+        $("#nombre").val(pelicula[3]);
+        $("#sinopsis").val(pelicula[4]);
+        $("#duracion").val(pelicula[5]);
+        $("#clasificacion").val(pelicula[6]);
+        $("#video").val(pelicula[7]);
+        $("#nombre").focus();
     });
     
     function Habilita_Registro(){
@@ -75,6 +78,9 @@ $(document).ready(function(){
                 $("#id").val(response[a].id);
                 tab.innerHTML +=
                 '<tr  role="row" class="odd" id="'+ response[a].id +'">'+
+                    
+                '<td class="alias"><img class="img img-responsive" src="/imagenes/' + response[a].imagen +'" alt="User Image"></td>'+
+                '<td class="alias" style="width:0">'+ response[a].imagen +'</td>'+
                 '<td class="alias">'+ response[a].nombre +'</td>'+
                 '<td class="alias">'+ response[a].sinopsis +'</td>'+
                 '<td class="alias">'+ response[a].duracion +'</td>'+
