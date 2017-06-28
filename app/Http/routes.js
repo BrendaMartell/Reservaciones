@@ -6,6 +6,7 @@ Route.on('/').render('inicio')
 Route.on('/cartelera').render('cartelera')
 Route.on('/nosotros').render('nosotros')
 Route.on('/galeria').render('galeria')
+Route.on('/Login/Boletos').render('compraBoletos')
 Route.post('/Login/insertarAsiento','PlacesController.Insertar')
 Route.post('/Login/eliminarAsiento','PlacesController.Eliminar')
 
