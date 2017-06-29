@@ -60,6 +60,26 @@
         <hr>   
         <hr>   
         <hr>   
+        
+        
+        <div class="section">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <img id="Imagen" style="height:200px; width:200px;" src="/img/Chuky.jpg">
+                </div>
+                <div class="col-md-8">
+                    <div class="row" id="Clasificacion"></div>
+                    <div class="row" id="Fecha/Hora"></div>
+                    <div class="row" id="Sinopsis"></div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <hr>   
+        <hr>   
+        
         <div class="section">
 	    	<div class="container">
                  <div id="container">
@@ -218,6 +238,17 @@
                     }
                 })
             
+                cargarPelicula()
+                function cargarPelicula(){
+                    $.ajax({
+                        type:'Get',
+                        url:'/Login/infoPelicula'
+                        data:{}
+                    }).done(function(){
+                        
+                    })
+                }
+                
                 agregarAsientos();
                 function agregarAsientos(){
                     $('#content-2 #asientos').children().remove()
@@ -354,17 +385,11 @@
                 width: 75;
                 height: 75;
                 border: 3px solid #555;
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
                 font-size: small;
                 color:#000;
                 background-color:forestgreen;
             }
             .cuadrado-Ocupado{
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
                 width: 75;
                 height: 75;
                 border: 3px solid #555;
