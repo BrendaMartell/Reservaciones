@@ -17,6 +17,10 @@ class AsientoController {
     // throw error to deny a socket from joining room
       console.log(room)
   }
+  * leaveRoom(room){
+      // throw error to deny a socket from joining room
+      console.log(room)
+  }
   
 }
 
