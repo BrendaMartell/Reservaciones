@@ -58,8 +58,6 @@ class FunctionsController {
     
     
      * all(request,response){
-         
-         
         const funciones = yield Database.from('functions')
         .innerJoin('movies', 'functions.id_pelicula','movies.id')
         .innerJoin('rooms', 'functions.id_sala','rooms.id')

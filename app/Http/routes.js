@@ -37,6 +37,7 @@ Route.get('cat_tfns').render('cTipoFuncion').middleware('auth');
 Route.get('cat_tboleto').render('cTipoBoleto').middleware('auth');
 Route.get('cat_roles').render('cRoles').middleware('auth');
 Route.get('cat_fnes').render('cFunciones').middleware('auth');
+Route.get('cat_cartelera').render('cCartelera').middleware('auth');
 
 
 Route.post('nvo_cte', 'PersonsController.insert');
