@@ -67,6 +67,7 @@ $(document).ready(function(){
     
     
     function Carga_Datos(){
+        var nombre_pelicula="";
         $.ajax({
              url:'all_fnes',
              type:'post',
@@ -75,6 +76,11 @@ $(document).ready(function(){
          }).done(function(response){
             $.each(response,function(a,b){
                 $("#id").val(response[a].id);
+                if(nombre_pelicula==response[a].nombre){
+                    
+                }else{
+                    
+                }
                 tab.innerHTML +=
                 '<tr  role="row" class="odd" id="'+ response[a].id +'">'+
                 '<td class="fecha">'+ response[a].fecha +'</td>'+
@@ -90,6 +96,7 @@ $(document).ready(function(){
                 '<td class="costoadicional">'+ response[a].costo_adicional +'</td>'+
                 '<td class="Btn_Editar" data-id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>'+
                 '</tr>';
+                nombre_pelicula=response[a].nombre;
             });// final each
         });//final ajax
     }//final function carga Datos

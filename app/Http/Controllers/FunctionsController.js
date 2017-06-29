@@ -26,7 +26,7 @@ class FunctionsController {
             funcion.id_tipo_funcion=data.id_tipo_funcion;
             funcion.costo_adicional=data.costo_adicional;
             funcion.hora_termino=data.hora_termino;
-            const insercion=yield funcion.save()
+            const insercion=yield funcion.save();
             if(insercion==true){
                 yield response.redirect('/cat_fnes')
             }else{
