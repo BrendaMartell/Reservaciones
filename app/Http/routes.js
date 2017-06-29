@@ -31,11 +31,12 @@ Route.post('DUser','PersonsController.DUser');
 Route.get('cat_ctes').render('cClientes').middleware('auth');
 Route.get('cat_emp').render('cEmpleados').middleware('auth');
 Route.get('cat_salas').render('cSalas').middleware('auth');
-Route.get('cat_fns').render('cTipoFuncion').middleware('auth');
+Route.get('cat_tfns').render('cTipoFuncion').middleware('auth');
 Route.get('cat_pelicula').render('cPeliculas').middleware('auth');
 Route.get('cat_tfns').render('cTipoFuncion').middleware('auth');
 Route.get('cat_tboleto').render('cTipoBoleto').middleware('auth');
 Route.get('cat_roles').render('cRoles').middleware('auth');
+Route.get('cat_fnes').render('cFunciones').middleware('auth');
 
 
 Route.post('nvo_cte', 'PersonsController.insert');
@@ -73,3 +74,15 @@ Route.post('nvo_pelicula', 'MoviesController.insert');
 Route.post('edit_pelicula', 'MoviesController.update');
 Route.post('all_pelicula', 'MoviesController.all');
 Route.post('filt_pelicula', 'MoviesController.filt_roles');
+
+Route.post('nva_fnes', 'FunctionsController.insert');
+Route.post('edit_fnes', 'FunctionsController.update');
+Route.post('all_fnes', 'FunctionsController.all');
+Route.post('filt_fnes', 'FunctionsController.filt_fnes');
+
+
+
+
+Route.post('SalasDisp', 'RoomsController.disponibles');
+Route.post('EnCartelera', 'MoviesController.enCartelera');
+Route.post('TpsFuncion', 'TypeFunctionsController.Tipos');

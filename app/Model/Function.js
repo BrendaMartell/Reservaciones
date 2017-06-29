@@ -2,7 +2,7 @@
 
 const Lucid = use('Lucid')
 
-class Funcion extends Lucid {
+class Function extends Lucid {
     static get validaInsersion(){
         return {
             fecha:'required',
@@ -16,16 +16,10 @@ class Funcion extends Lucid {
     
     static get validaActualizacion(){
         return {
-            id:'required',
-            fecha:'required',
-            hora:'required',
-            id_sala:'required',
-            id_tipo_funcion:'requiered',
-            id_pelicula:'required',
-            costo_adicional:'required'
+            id:'required'
         }
     }
     
 }
 
-module.exports = Funcion
+module.exports = Function

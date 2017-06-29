@@ -25,6 +25,7 @@ class MoviesController {
             pelicula.imagen=nombre_archivo;
             pelicula.clasificacion=data.clasificacion;
             pelicula.video=data.video;
+            pelicula.estado="Cartelera";
             const validacion = yield Validator.validate(pelicula,Pelicula.validaInsert)
             if(validacion.fails()){
                 yield response.send('No se ingresaron correctamente los datos')
@@ -63,6 +64,7 @@ class MoviesController {
         pelicula.imagen=nombre_archivo;
         pelicula.clasificacion=data.clasificacion;
         pelicula.video=data.video;
+        pelicula.estado="Cartelera";
         if(validacion.fails()){
             yield response.send('No se ingresaron correctamente los datos')
         }else{
@@ -78,6 +80,12 @@ class MoviesController {
         const pelicula=yield Pelicula.all();
         yield response.json(pelicula)
     }
+    
+    * enCartelera(request,response){
+        const pelicula=yield Pelicula.query().where('estado','Cartelera');
+        yield response.json(pelicula)
+    }
+    
 }
 
 module.exports = MoviesController

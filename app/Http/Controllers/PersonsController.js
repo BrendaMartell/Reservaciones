@@ -129,7 +129,7 @@ class PersonsController {
         .from('people')
         .whereIn('id',subquery);
         console.log(clientes);
-            yield response.redirect('/cat_ctes')
+        yield response.redirect('/cat_ctes')
     }
     
     ext_tarjeta(){

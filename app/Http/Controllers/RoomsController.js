@@ -1,6 +1,7 @@
 'use strict'
 
 const Sala=use("App/Model/Room");
+const Database=use("Database");
 const Validator=use("Validator");
 
 
@@ -42,6 +43,25 @@ class RoomsController {
     
     * all(request,response){
         const salas=yield Sala.all();
+        yield response.json(salas)
+    }
+    
+    * disponibles(request,response){
+        const data=request.all();
+        console.log(data);
+        const fecha="2017/05/30";
+        const subquery = Database
+        .from('functions')
+        .where({'fecha': fecha})
+        .select('id_sala')
+        console.log(subquery);
+        
+        console.log(subquery)
+        const salas = yield Database
+        .from('rooms')
+        .where('tipo',data.tipo)
+        .whereNotIn('id', subquery)
+        
         console.log(salas)
         yield response.json(salas)
     }
