@@ -24,6 +24,7 @@
     "adonis-validation-provider": "^3.0.5",
     "adonis-websocket": "^1.0.4",
     "adonis-websocket-client": "^1.0.2",
+    "formidable": "^1.1.1",
     "mongodb": "^2.2.29",
     "pg": "^6.4.0",
     "youch": "^2.0.5"
