@@ -124,6 +124,7 @@
                        <div id="cantidadBoletos"></div>
                        <br/>
                        <br/>
+                       <div id="asientos"></div>
                    </div>
                    <!--Contenido de la Pestaña 3-->
                    <div id="content-3">
@@ -188,19 +189,17 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 var cantBoletos=0
-                var info = {
+                var info = {}
+                var Asientos = []                          
+                var AsientoSel = {
                     asientoActual:"",
                     asientoAnterior:"",
-                    error:false,
-                    usuario:{{currentUser.id}}
+                    Asiento:0
                 }
                 const io = ws('')
                 const client = io.channel('Asientos').connect()
-                client.joinRoom('SalaA', {}, function (error, joined) {
-                    console.log(joined)
-                    console.log(error)
-                })
                 client.on('message',function(a,b){
+                    console.log(a)
                     if(a.error == 'False'){
                         var atributo = $('#'+a.asientoActual).attr("class")
                         if(atributo == 'cuadrado-Seleccionado' && info.usuario != {{currentUser.id}}){
@@ -211,7 +210,7 @@
                             $('#'+a.asientoAnterior).attr("class",'cuadrado-Noseleccionado')
                         }
                     }else{
-                        if(info.usuario = {{currentUser.id}}){
+                        if(a.usuario = {{currentUser.id}}){
                             alert("Este asiento se encuentra ocupado")
                             $('#'+a.asientoAnterior).attr("class",'cuadrado-Seleccionado')
                             $('#'+a.asientoActual).attr("class",'cuadrado-Noseleccionado')
@@ -221,36 +220,44 @@
             
                 agregarAsientos();
                 function agregarAsientos(){
+                    $('#content-2 #asientos').children().remove()
                     for(var i = 1; i<=50; i++){
-                        $('#content-2').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
+                        $('#content-2 #asientos').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
                         logicaWebsocket(i)
                     } 
                 }
                 function logicaWebsocket(i){
-                    $('#div-Asientos div #Asiento-'+i).bind('click',function(){
-                            if(clase != 'cuadrado-Ocupado'){
-                                var Asiento = $(this).attr("id").split('-')                            
-                                var clase = $(this).attr("class")
-                        
-                               if(clase == 'cuadrado-Noseleccionado'){
-                                    info.asientoAnterior = info.asientoActual
-                                    info.asientoActual = $(this).attr("id")
-                                    info.error = 'False'
-                                    insertarAsiento(Asiento[1])
-                                    $('#'+info.asientoAnterior).attr("class","cuadrado-Noseleccionado")
-                                    $('#'+info.asientoAnterior).attr("usuario","")
-                                    $(this).attr("class","cuadrado-Seleccionado")
-                                    $(this).attr("usuario",{{currentUser.id}})
-                                    client.emit("message",info)
-                                }else{
-                                    var usuarioAsiento =  $(this).attr("usuario",{{currentUser.id}})
-                                    if(usuarioAsiento != {{currentUser.id}}){
-                                        alert("Se encuentra Ocupado este Asiento")
+                    $('#content-2 #asientos #Asiento-'+i).bind('click',function(){
+                            if(AsientoSel.Asiento > -1){
+                                if(clase != 'cuadrado-Ocupado'){
+                                    var Asiento = $(this).attr("id").split('-')                            
+                                    var clase = $(this).attr("class")
+
+                                   if(clase == 'cuadrado-Noseleccionado'){
+                                        Asientos[AsientoSel.Asiento].error = 'False'
+                                        Asientos[AsientoSel.Asiento].asientoAnterior = Asientos[AsientoSel.Asiento].asientoActual
+                                        Asientos[AsientoSel.Asiento].asientoActual = $(this).attr('id')
+                                        
+                                        $('#'+Asientos[AsientoSel.Asiento].asientoAnterior).attr("class","cuadrado-Noseleccionado")
+                                        $('#'+Asientos[AsientoSel.Asiento].asientoAnterior).removeAttr("usuario") 
+                                        $('#'+Asientos[AsientoSel.Asiento].asientoActual).attr("class","cuadrado-Seleccionado")
+                                        $('#'+Asientos[AsientoSel.Asiento].asientoActual).attr("usuario",{{currentUser.id}})
+                                       console.log(AsientoSel.Asiento)
+                                       console.log(Asientos[AsientoSel.Asiento])
+                                       console.log(Asientos)
+                                        client.emit("message",Asientos[AsientoSel.Asiento])
+                                    }else{
+                                        var usuarioAsiento =  $(this).attr("usuario",{{currentUser.id}})
+                                        if(usuarioAsiento != {{currentUser.id}}){
+                                            alert("Se encuentra Ocupado este Asiento")
+                                        }
                                     }
-                                }
+                                }else{
+                                    alert("Se encuentra Ocupado este Asiento")
+                                } 
                             }else{
-                                alert("Se encuentra Ocupado este Asiento")
-                            }  
+                                alert('Seleccione un asiento')
+                            }
                     })
                 }
             
@@ -282,9 +289,28 @@
                 } 
                 function agregarCantidadAsientos(){
                     $('#cantidadBoletos').children().remove()
+                    Asientos = []
                     for(var i = 1; i<cantBoletos; i++){
-                        $('#cantidadBoletos').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
+                        info = {
+                    asientoActual:"",
+                    asientoAnterior:"",
+                    error:false,
+                    usuario:{{currentUser.id}}
+                }
+                        $('#cantidadBoletos').append('<div class="col-sm-2"><div id="numAsiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
+                        Asientos.push(info)
+                        logicaCantAsientos(i)
                     } 
+                    console.log(Asientos)
+                }
+                function logicaCantAsientos(i){
+                    $('#content-2 #cantidadBoletos #numAsiento-'+i).bind('click',function(){
+                        AsientoSel.asientoAnterior = AsientoSel.asientoActual
+                        AsientoSel.asientoActual = $(this).attr('id')
+                        $('#'+AsientoSel.asientoAnterior).attr('class','cuadrado-Noseleccionado')
+                        $('#'+AsientoSel.asientoActual).attr('class','cuadrado-Seleccionado')
+                        AsientoSel.Asiento = i-1
+                    })
                 }
             
                 $('#seleccionarASientos').click(function(){
@@ -293,6 +319,18 @@
                         $('#tab-1').removeAttr('checked')
                         $('#tab-2').attr('checked','checked')
                     }
+                })
+            
+                $('#tab-1').on('change',function(){
+                    agregarAsientos()
+                    client.leaveRoom('SalaA', {}, function (error, left) {
+                        console.log(left)
+                    })
+                })
+                $('#tab-2').on('change',function(){
+                    client.joinRoom('SalaA', {}, function (error, joined) {
+                        console.log(joined)
+                    })
                 })
             });
         </script>
