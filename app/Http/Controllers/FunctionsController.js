@@ -1,6 +1,6 @@
 'use strict'
 
-const Funcion = use('App/Model/Function')
+const Funcion = use('App/Model/Functions')
 const Database = use('Database')
 const Validator = use('Validator')
 
@@ -58,27 +58,31 @@ class FunctionsController {
     
     
      * all(request,response){
+         
          const data=request.all();
-        const funciones = yield Database.from('functions')
+         const funciones = yield Database.from('functions')
         .innerJoin('movies', 'functions.id_pelicula','movies.id')
         .innerJoin('rooms', 'functions.id_sala','rooms.id')
         .innerJoin('type_functions', 'functions.id_tipo_funcion','type_functions.id')
-        .where('functions.fecha','2017/05/02');
-        //.where('functions.fecha',data.fecha);
-         console.log(funciones);
-         
-        yield response.json(funciones)
+        .where('functions.fecha',data.fecha)
+         .select('functions.id','movies.imagen','movies.clasificacion','functions.hora','movies.nombre');
+         yield response.json(funciones)
         
     }
      * funcionEspesifica(request,response){
-        var funcion= yield request.params()
-        console.log(funcion)
+        var funcions= yield request.params()
+        console.log(funcions)
         const funciones = yield Database.from('functions')
         .innerJoin('movies', 'functions.id_pelicula','movies.id')
         .innerJoin('rooms', 'functions.id_sala','rooms.id')
         .innerJoin('type_functions', 'functions.id_tipo_funcion','type_functions.id')
+<<<<<<< HEAD
+        .where('functions.id','=',funcions.funcion)
+        .select('functions.id','movies.imagen','movies.clasificacion','functions.hora','movies.nombre','movies.sinopsis');
+=======
         .where('functions.id','=',funcion.funcion);
         console.log(funciones)
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
         yield response.sendView('compraBoletos',{funciones})
     }
 }

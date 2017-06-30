@@ -22,6 +22,9 @@
 
 	<link rel="stylesheet" href="css/icomoon-social.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="/css/jquery-ui.theme.min.css">
 	
 	<script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	
@@ -58,6 +61,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h1>Cartelera </h1>
+                        <input type="text" id="fecha" class="">
 					</div>
 				</div>
 			</div>
@@ -88,15 +92,23 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/bootstrap.min.js"></script>
+<<<<<<< HEAD
+        <script src="js/jquery-ui.min.js"></script>
+=======
     
 		
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
 		<!-- Scrolling Nav JavaScript -->
 		<script src="js/jquery.easing.min.js"></script>
     <script src="js/js/js_Cart.js"></script>
 		<script src="js/scrolling-nav.js"></script>	
-        <script src="https://unpkg.com/adonis-websocket-client@1.0.2/dist/ws.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+<<<<<<< HEAD
+                $('#fecha').datepicker({dateFormat: "yy/mm/d"})
+                $('#fecha').change(function(){
+                    Carga_Datos()
+=======
                 /*var info = {
                     asientoActual:"",
                     asientoAnterior:"",
@@ -108,188 +120,46 @@
                 client.joinRoom('SalaA', {}, function (error, joined) {
                     console.log(joined);
                     console.log(error);
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
                 })
-                client.on('message',function(a,b){
-                    if(a.error == 'False'){
-                        var atributo = $('#'+a.asientoActual).attr("class")
-                        if(atributo == 'cuadrado-Seleccionado' && info.usuario != {{currentUser.id}}){
-                            info.error = 'True'
-                            client.emit("message",info)
-                        }else{
-                            $('#'+a.asientoActual).attr("class",'cuadrado-Seleccionado')
-                            $('#'+a.asientoAnterior).attr("class",'cuadrado-Noseleccionado')
-                        }
-                    }else{
-                        if(info.usuario = {{currentUser.id}}){
-                            alert("Este asiento se encuentra ocupado")
-                            $('#'+a.asientoAnterior).attr("class",'cuadrado-Seleccionado')
-                            $('#'+a.asientoActual).attr("class",'cuadrado-Noseleccionado')
-                        }
-                    }
-                })
-            
-                agregarAsientos();
-                function agregarAsientos(){
-                    for(var i = 1; i<=50; i++){
-                        $('#content-2').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
-                        logicaWebsocket(i)
-                    } 
-                }
-                function insertarAsiento(Asiento){
+                function Carga_Datos(){
+                    var nombre_pelicula="";
+                    var html_code="";
                     $.ajax({
-                        type:'post',
-                        url:'/Login/insertarAsiento',
-                        data:{Asiento:Asiento,Venta:1}
-                    }).done(function(response){
+                         url:'all_fnes',
+                         type:'post',
+                         data:{fecha:$('#fecha').val()},
+                         datatype:'json'
+                     }).done(function(response){
                         console.log(response)
-                    });
-                }
-                function eliminarAsiento(Asiento){
-                    $.ajax({
-                        type:'post',
-                        url:'/Login/eliminarAsiento',
-                        data:{Asiento:Asiento,Venta:1}
-                    }).done(function(response){
-                        
-                    });
-                }
-                function logicaWebsocket(i){
-                    $('#div-Asientos div #Asiento-'+i).bind('click',function(){
-                            if(clase != 'cuadrado-Ocupado'){
-                                var Asiento = $(this).attr("id").split('-')                            
-                                var clase = $(this).attr("class")
-                        
-                               if(clase == 'cuadrado-Noseleccionado'){
-                                    info.asientoAnterior = info.asientoActual
-                                    info.asientoActual = $(this).attr("id")
-                                    info.error = 'False'
-                                    insertarAsiento(Asiento[1])
-                                    $('#'+info.asientoAnterior).attr("class","cuadrado-Noseleccionado")
-                                    $('#'+info.asientoAnterior).attr("usuario","")
-                                    $(this).attr("class","cuadrado-Seleccionado")
-                                    $(this).attr("usuario",{{currentUser.id}})
-                                    client.emit("message",info)
-                                }else{
-                                    var usuarioAsiento =  $(this).attr("usuario",{{currentUser.id}})
-                                    if(usuarioAsiento != {{currentUser.id}}){
-                                        alert("Se encuentra Ocupado este Asiento")
-                                    }
-                                }
+                        Contenedor_Cartelera.innerHTML = html_code
+                        $.each(response,function(a,b){
+                            console.log(b.id)
+                            $("#id").val(response[a].id);
+                            if(nombre_pelicula==response[a].nombre){
+                                html_code+=
+                                    '  <a href="/Login/Boletos/'+b.id+'" class="btn">' + response[a].hora + '</a>'
                             }else{
-                                alert("Se encuentra Ocupado este Asiento")
-                            }  
-                    })
-                }
-            });
+                                if(nombre_pelicula != ""){ html_code+= '</div></div>'; }
+                                html_code+=
+                                        '<div class="col-md-4 col-sm-6">' +
+                                           '<img src="imagenes/' + response[a].imagen + '" class="img"  style="width:200px; height:300px"/>' +
+                                            '<p><h3>' + response[a].nombre + '</h3></p>' +
+                                            '<p>' + response[a].sinopsis + '</p>' +
+                                            '<p>Clasificacion: ' + response[a].clasificacion + '</p>' +
+                                           '<a href="/Login/Boletos/'+b.id+'" class="btn">' + response[a].hora + '</a>'
+
+                            }
+                            nombre_pelicula=response[a].nombre;
+                        });// final each
+                        if(nombre_pelicula != "" && html_code != ""){ html_code+= '</div></div>'; }
+                        Contenedor_Cartelera.innerHTML += html_code;
+                    });//final ajax
+                }//final function carga Datos
+            })
         </script>
         <style>
-        
-            .div-imagen{
-                height:350px;
-                background:url("/img/asientos-cine.jpg") center no-repeat;
-                background-size:cover;
-                
-            }
-            .cuadrado-Noseleccionado{
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
-                font-size: small;
-                color:#000;
-                background-color: floralwhite;
-            }
-            .cuadrado-Seleccionado{
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
-                font-size: small;
-                color:#000;
-                background-color:forestgreen;
-            }
-            .cuadrado-Ocupado{
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
-                width: 75;
-                height: 75;
-                border: 3px solid #555;
-                font-size: small;
-                color:darkred;
-                background-color:forestgreen;
-            }
-            * {
-                 font-family: Arial, sans;
-                 margin: 0;
-                 padding: 0;
-                 box-sizing: border-box;
-                 -moz-box-sizing: border-box;
-                }
-                h1 {
-                 margin: 1em 0;
-                 text-align: center;
-                }
-                #container {
-                 margin: 0 auto;
-                 width: 50%; /* Ancho del contenedor */
-                }
-                #container input {
-                 height: 2.5em;
-                 visibility: hidden;
-                }
-                #container label {
-                 background: #f9f9f9; /* Fondo de las pestañas */
-                 border-radius: .25em .25em 0 0;
-                 color: #888; /* Color del texto de las pestañas */
-                 cursor: pointer;
-                 display: block;
-                 float: left;
-                 font-size: 1em; /* Tamaño del texto de las pestañas */
-                 height: 2.5em;
-                 line-height: 2.5em;
-                 margin-right: .25em;
-                 padding: 0 1.5em;
-                 text-align: center;
-                }
-                #container input:hover + label {
-                 background: #ddd; /* Fondo de las pestañas al pasar el cursor por encima */
-                 color: #666; /* Color del texto de las pestañas al pasar el cursor por encima */
-                }
-                #container input:checked + label {
-                 background: #f1f1f1; /* Fondo de las pestañas al presionar */
-                 color: #444; /* Color de las pestañas al presionar */
-                 position: relative;
-                 z-index: 6;
-                }
-                #content {
-                 background: #f1f1f1; /* Fondo del contenido */
-                 border-radius: 0 .25em .25em .25em;
-                 min-height: 20em; /* Alto del contenido */
-                 position: relative;
-                 width: 100%;
-                 z-index: 5;
-                }
-                #content #content-1,
-                #content #content-2,
-                #content #content-3{
-                    opacity: 0;
-                    padding: 1.5em;
-                    z-index: -100
-                    position: absolute
-                }
-                #content-2 {
-                    height:350px;
-                    background:url("/img/asientos-cine.jpg") center no-repeat;
-                    background-size:cover;
-                }
-                #container input#tab-1:checked ~ #content #content-1 ,
-                #container input#tab-2:checked ~ #content #content-2 ,
-                #container input#tab-3:checked ~ #content #content-3 {
-                 opacity: 1;
-                 z-index: 100;
-                }    
+  
         </style>
     </body>
     </html>

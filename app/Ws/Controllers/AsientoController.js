@@ -9,8 +9,10 @@ class AsientoController {
     this.request = request
   }
   onMessage(message){
-      console.log(message)
-      this.socket.emit("message",message)
+      var info = message.split('/')
+      var room = info[0]
+      var mensage = info[1] 
+      this.socket.inRoom('Sala' + info[0]).emit('message', mensage)
       
   }
   * joinRoom (room) {
