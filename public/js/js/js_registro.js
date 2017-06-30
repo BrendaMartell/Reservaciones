@@ -4,22 +4,11 @@ $(document).ready(function(){
     var Pnl_Tabla=document.getElementById('Pnl_Tabla');
     $("#EnPantalla").text("Clientes")
     var Movimiento ="";
-    
-    
-    
-    $("#Btn_Registra").click(function(){
-        $("#titulo_formulario").text("Registro de Nuevo Cliente");
-        Habilita_Registro();
-        $("#nombres").focus();
-        $("#pwd").show();
-        Movimiento="Alta";
-        $('#formulario').attr('action','/nvo_cte');
-    });//final btin registra click
-    
-    $("#Btn_Cancela").click(function(){
-        Deshabilita_Registro();
-    });//final btin registra click
-    
+    console.log('{{persona.nombres}}');
+    $("#nombres").val('{{persona.nombres}}');
+    $("#apellidos").val('{{persona.apellidos}}');
+    $("#email").val('{{persona.email}}');
+    $("#numero_aut").val('{{usuario.numero_aut}}');
     
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {

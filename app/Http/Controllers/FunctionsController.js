@@ -76,8 +76,13 @@ class FunctionsController {
         .innerJoin('movies', 'functions.id_pelicula','movies.id')
         .innerJoin('rooms', 'functions.id_sala','rooms.id')
         .innerJoin('type_functions', 'functions.id_tipo_funcion','type_functions.id')
+<<<<<<< HEAD
         .where('functions.id','=',funcions.funcion)
         .select('functions.id','movies.imagen','movies.clasificacion','functions.hora','movies.nombre','movies.sinopsis');
+=======
+        .where('functions.id','=',funcion.funcion);
+        console.log(funciones)
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
         yield response.sendView('compraBoletos',{funciones})
     }
 }

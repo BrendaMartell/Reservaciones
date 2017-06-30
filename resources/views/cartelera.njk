@@ -155,15 +155,35 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/bootstrap.min.js"></script>
+<<<<<<< HEAD
         <script src="js/jquery-ui.min.js"></script>
+=======
+    
+		
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
 		<!-- Scrolling Nav JavaScript -->
 		<script src="js/jquery.easing.min.js"></script>
+    <script src="js/js/js_Cart.js"></script>
 		<script src="js/scrolling-nav.js"></script>	
         <script type="text/javascript">
             $(document).ready(function(){
+<<<<<<< HEAD
                 $('#fecha').datepicker({dateFormat: "yy/mm/d"})
                 $('#fecha').change(function(){
                     Carga_Datos()
+=======
+                /*var info = {
+                    asientoActual:"",
+                    asientoAnterior:"",
+                    error:false,
+                    usuario:{{currentUser.id}}
+                };*/
+                const io = ws('')
+                const client = io.channel('Asientos').connect()
+                client.joinRoom('SalaA', {}, function (error, joined) {
+                    console.log(joined);
+                    console.log(error);
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
                 })
                 function Carga_Datos(){
                     var nombre_pelicula="";

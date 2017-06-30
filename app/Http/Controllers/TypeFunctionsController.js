@@ -14,7 +14,7 @@ class TypeFunctionsController {
             tipo.descripcion=data.descripcion;
             const insercion=yield tipo.save()
             if(insercion==true){
-                yield response.redirect('/cat_fns')
+                yield response.redirect('/cat_tfns')
             }else{
                 yield response.send('Hubo un error al registrar, intentelo de nuevo.')
             }
@@ -31,7 +31,7 @@ class TypeFunctionsController {
             const tipo= yield Tipo_Funcion.findBy('id', data.id)
             tipo.descripcion = data.descripcion
             yield tipo.save()
-            yield response.redirect('/cat_fns')
+            yield response.redirect('/cat_tfns')
         }
     }
     

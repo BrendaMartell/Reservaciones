@@ -79,6 +79,8 @@ class UsersController {
             yield user.save()
     }
     
+    
+    
     * Clientes(request,response){
         const users = yield Database.from('users')
         .innerJoin('people','people.id','users.id_persona').where('users.id_rol',1);
