@@ -4,6 +4,9 @@ $(document).ready(function(){
     $("#id").hide();
     $("#EnPantalla").text("Funciones")
     var Movimiento ="";
+<<<<<<< HEAD
+
+=======
     Carga_Datos();
     
     
@@ -38,6 +41,12 @@ $(document).ready(function(){
             Contenedor_Cartelera.innerHTML += html_code;
         });//final ajax
     }//final function carga Datos
+<<<<<<< HEAD
+=======
+>>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
+>>>>>>> a5cfaa0c43fb385048d947e00a6cf8e4ad1aa314
+>>>>>>> c9d60645bc63017bc005a3ec9c0129ab983c7afe
     
+
     
 }); //final document
