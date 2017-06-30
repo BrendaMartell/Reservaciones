@@ -20,7 +20,7 @@ $(document).ready(function(){
                 $("#id").val(response[a].id);
                 if(nombre_pelicula==response[a].nombre){
                     html_code+=
-                        '  <a href="#" class="btn">' + response[a].hora + '</a>'
+                        '  <a href="/login/boletos/' + response[a].id + '" class="btn">' + response[a].hora + '</a>'
                 }else{
                     if(nombre_pelicula != ""){ html_code+= '</div></div>'; }
                     html_code+=

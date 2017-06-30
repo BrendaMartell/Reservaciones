@@ -76,7 +76,7 @@ class PersonsController {
                 //yield response.redirect('/cat_ctes')
             yield response.sendView('registro',{persona,user});
             }else{
-            yield response.sendView('registro',{persona:persona,usuario:user});
+            yield response.sendView('registro',{persona,user});
             }
         }
     }
