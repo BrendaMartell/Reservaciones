@@ -86,7 +86,8 @@ class FunctionsController {
          const pelicula = yield Pelicula.query()
              .innerJoin('functions','functions.id_pelicula','movies.id')
              .innerJoin('details_sales','functions.id','details_sales.id_funcion')
-            .select('nombre').sum('cantidad').groupBy('nombre').fetch();
+             .innerJoin('sales','sales.id','details_sales.id_venta')
+            .select('nombre').sum('sales.cantidad').groupBy('nombre').fetch();
 		return  response.json(pelicula);
         
     }
