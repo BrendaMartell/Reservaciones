@@ -218,7 +218,7 @@
                 var AsientoSel = {
                     asientoActual:"",
                     asientoAnterior:"",
-                    Asiento:0
+                    Asiento:-1
                 }
                 const io = ws('')
                 //const ventas = io.channel('Ventas').connect()
@@ -303,10 +303,9 @@
                         url:'/Login/Venta',
                         data:{asientos:Asientos,funcion:funcion}
                     }).done(function(response){
-                        if(response == 'Registrado'){
-                            ventas.emite('message','Venta')
-                            window.location.href('/')   
-                        }
+                        ventas.emite('message','Venta')  
+                        console.log("Hola brenda")
+                         window.location.href('/') 
                     })
                 })
                 
@@ -364,6 +363,7 @@
                 }
             
                 $('#tab-1').on('change',function(){
+                    AsientoSel.Asiento = -1
                     client.leaveRoom('Sala'+funcion, {}, function (error, left) {
                         console.log('Salida de sala' +left)
                     })
@@ -371,6 +371,7 @@
                 $('#tab-2').on('change',function(){
                     agregarAsientos()
                     agregarCantidadAsientos()
+                    cargarAsientos()
                     client.joinRoom('Sala'+funcion, {}, function (error, joined) {
                         console.log('Entrada a Sala' + joined)
                     })

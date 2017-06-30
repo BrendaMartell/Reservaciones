@@ -32,7 +32,7 @@ class SalesController {
             place.id_venta_detalle = details.id
             yield place.save()
        }
-        yield response.json('Registrado')
+        response.json('Registrado')
     }
 }
 
