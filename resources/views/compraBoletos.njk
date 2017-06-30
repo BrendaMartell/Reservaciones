@@ -133,7 +133,6 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-2"><button id="Viejito_mas">+</button></div>
                        </div>
-                       <button id="seleccionarASientos">Seleccionar ASientos</button>
                    </div>
                    <!--Contenido de la Pestaña 2-->
                    <div id="content-2">
@@ -144,10 +143,6 @@
                        <br/>
                        <div id="asientos"></div>
                        <div class="col-sm-2"><button id="btnGuardar">Guardar</button></div>
-                   </div>
-                   <!--Contenido de la Pestaña 3-->
-                   <div id="content-3">
-
                    </div>
                   </div>
                  </div>
@@ -207,29 +202,15 @@
         <script src="https://unpkg.com/adonis-websocket-client@1.0.2/dist/ws.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-<<<<<<< HEAD
                 var funcion = '{{funciones[0].id}}'
-                $('#Imagen').attr('src','/imagenes/{{funciones[0].imagen}}')
-                $('#Clasificacion').html('Clasificacion: ' + ' {{funciones[0].clasificacion}}')
-                $('#Hora').html('Hora: ' + ' {{funciones[0].Hora}}')
-                $('#Sinopsis').html('Sinopsos: ' + ' {{funciones[0].sinopsis}}')
-=======
-<<<<<<< HEAD
-                console.log('{{funciones[0].id}}')
+                
                 $('#Imagen').attr('src',"/imagenes/" + '{{funciones[0].imagen}}')
                 $('#Clasificacion').html('<div class="col-md-12"><p><b>Clasificacion:</b> ' +  '{{funciones[0].clasificacion}}'+"</p></div>");
                 
                 $('#Video').html('<div class="col-md-12"><p><b><a href="'+ '{{funciones[0].video}}'+'"  target="_blank" >Ver Trailer</a></b></p></div>');
                 $('#Fecha_Hora').html('<div class="col-md-12"><p><b>Fecha y Hora:</b> '+'{{funciones[0].fecha}}' + " - " + '{{funciones[0].hora}}'+"</p></div>");
                 $('#Sinopsis').html('<div class="col-md-12"><p><b>Sinopsis: </b>'+ '{{funciones[0].sinopsis}}'+"</p></div>");
-=======
-                console.log('{{funciones[0].id}}') 
-                $('#Imagen').attr('src','{{funciones[0].imagen}}')
-                $('#Clasificacion').html('Clasificacion: ' + ' {{funciones[0].clasificacion}}')
-                //$('#Fecha/Hora').html(funcion.fecha + funcion.hora)
-                //$('#Sinopsis').html(funcion.sinopsis)
->>>>>>> 5b271fbac863f1c971b5e9fa1fc6c41b177799ca
->>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
+                
                 
                 var cantBoletos=0
                 var info = {}
@@ -242,22 +223,23 @@
                 const io = ws('')
                 //const ventas = io.channel('Ventas').connect()
                 const client = io.channel('Asientos').connect()
-                client.on('message',function(a,b){
-                    console.log(a)
-                    if(a.error == 'False'){
-                        var atributo = $('#'+a.asientoActual).attr("class")
-                        if(atributo == 'cuadrado-Seleccionado' && info.usuario != {{currentUser.id}}){
-                            info.error = 'True'
-                            client.emit("message",info)
+                client.on('message',function(room,message){
+                    console.log(room)
+                    console.log(message)
+                    if(message.error == 'False'){
+                        var atributo = $('#'+message.asientoActual).attr("class")
+                        if(atributo == 'cuadrado-Seleccionado' && message.usuario != {{currentUser.id}}){
+                            message.error = 'True'
+                            client.emit("message",message)
                         }else{
-                            $('#'+a.asientoActual).attr("class",'cuadrado-Seleccionado')
-                            $('#'+a.asientoAnterior).attr("class",'cuadrado-Noseleccionado')
+                            $('#'+message.asientoActual).attr("class",'cuadrado-Seleccionado')
+                            $('#'+message.asientoAnterior).attr("class",'cuadrado-Noseleccionado')
                         }
                     }else{
-                        if(a.usuario = {{currentUser.id}}){
+                        if(message.usuario = {{currentUser.id}}){
                             alert("Este asiento se encuentra ocupado")
-                            $('#'+a.asientoAnterior).attr("class",'cuadrado-Seleccionado')
-                            $('#'+a.asientoActual).attr("class",'cuadrado-Noseleccionado')
+                            $('#'+message.asientoAnterior).attr("class",'cuadrado-Seleccionado')
+                            $('#'+message.asientoActual).attr("class",'cuadrado-Noseleccionado')
                         }
                     }
                 })
@@ -287,10 +269,7 @@
                                         $('#'+Asientos[AsientoSel.Asiento].asientoAnterior).removeAttr("usuario") 
                                         $('#'+Asientos[AsientoSel.Asiento].asientoActual).attr("class","cuadrado-Seleccionado")
                                         $('#'+Asientos[AsientoSel.Asiento].asientoActual).attr("usuario",{{currentUser.id}})
-                                       console.log(AsientoSel.Asiento)
-                                       console.log(Asientos[AsientoSel.Asiento])
-                                       console.log(Asientos)
-                                        client.emit("message",funcion + '/' +Asientos[AsientoSel.Asiento])
+                                        client.emit("message",Asientos[AsientoSel.Asiento])
                                     }else{
                                         var usuarioAsiento =  $(this).attr("usuario",{{currentUser.id}})
                                         if(usuarioAsiento != {{currentUser.id}}){
@@ -322,9 +301,12 @@
                     $.ajax({
                         type:'Post',
                         url:'/Login/Venta',
-                        data:{asientos:Asientos,funcion:'{{funciones[0].id}}'}
+                        data:{asientos:Asientos,funcion:funcion}
                     }).done(function(response){
-                        //ventas.emite('message','Venta')
+                        if(response == 'Registrado'){
+                            ventas.emite('message','Venta')
+                            window.location.href('/')   
+                        }
                     })
                 })
                 
@@ -360,10 +342,11 @@
                     Asientos = []
                     for(var i = 1; i<cantBoletos; i++){
                         info = {
-                    asientoActual:"",
-                    asientoAnterior:"",
-                    error:false,
-                    usuario:{{currentUser.id}}
+                        asientoActual:"",
+                        asientoAnterior:"",
+                        error:false,
+                        usuario:{{currentUser.id}},
+                        sala:funcion 
                 }
                         $('#cantidadBoletos').append('<div class="col-sm-2"><div id="numAsiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
                         Asientos.push(info)
@@ -380,21 +363,14 @@
                     })
                 }
             
-                $('#seleccionarASientos').click(function(){
-                    if(cantBoletos > 0){
-                        agregarCantidadAsientos()
-                        $('#tab-1').removeAttr('checked')
-                        $('#tab-2').attr('checked','checked')
-                    }
-                })
-            
                 $('#tab-1').on('change',function(){
-                    agregarAsientos()
                     client.leaveRoom('Sala'+funcion, {}, function (error, left) {
                         console.log('Salida de sala' +left)
                     })
                 })
                 $('#tab-2').on('change',function(){
+                    agregarAsientos()
+                    agregarCantidadAsientos()
                     client.joinRoom('Sala'+funcion, {}, function (error, joined) {
                         console.log('Entrada a Sala' + joined)
                     })
