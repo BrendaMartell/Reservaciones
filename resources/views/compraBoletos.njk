@@ -207,14 +207,7 @@
         <script src="https://unpkg.com/adonis-websocket-client@1.0.2/dist/ws.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-<<<<<<< HEAD
                 var funcion = '{{funciones[0].id}}'
-                $('#Imagen').attr('src','/imagenes/{{funciones[0].imagen}}')
-                $('#Clasificacion').html('Clasificacion: ' + ' {{funciones[0].clasificacion}}')
-                $('#Hora').html('Hora: ' + ' {{funciones[0].Hora}}')
-                $('#Sinopsis').html('Sinopsos: ' + ' {{funciones[0].sinopsis}}')
-=======
-<<<<<<< HEAD
                 console.log('{{funciones[0].id}}')
                 $('#Imagen').attr('src',"/imagenes/" + '{{funciones[0].imagen}}')
                 $('#Clasificacion').html('<div class="col-md-12"><p><b>Clasificacion:</b> ' +  '{{funciones[0].clasificacion}}'+"</p></div>");
@@ -222,14 +215,7 @@
                 $('#Video').html('<div class="col-md-12"><p><b><a href="'+ '{{funciones[0].video}}'+'"  target="_blank" >Ver Trailer</a></b></p></div>');
                 $('#Fecha_Hora').html('<div class="col-md-12"><p><b>Fecha y Hora:</b> '+'{{funciones[0].fecha}}' + " - " + '{{funciones[0].hora}}'+"</p></div>");
                 $('#Sinopsis').html('<div class="col-md-12"><p><b>Sinopsis: </b>'+ '{{funciones[0].sinopsis}}'+"</p></div>");
-=======
-                console.log('{{funciones[0].id}}') 
-                $('#Imagen').attr('src','{{funciones[0].imagen}}')
-                $('#Clasificacion').html('Clasificacion: ' + ' {{funciones[0].clasificacion}}')
-                //$('#Fecha/Hora').html(funcion.fecha + funcion.hora)
-                //$('#Sinopsis').html(funcion.sinopsis)
->>>>>>> 5b271fbac863f1c971b5e9fa1fc6c41b177799ca
->>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
+
                 
                 var cantBoletos=0
                 var info = {}

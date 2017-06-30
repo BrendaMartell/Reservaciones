@@ -7,9 +7,6 @@ $(document).ready(function(){
     Carga_Datos();
     
     
-<<<<<<< HEAD
-    
-=======
     function Carga_Datos(){
         var nombre_pelicula="";
         var html_code="";
@@ -41,7 +38,6 @@ $(document).ready(function(){
             Contenedor_Cartelera.innerHTML += html_code;
         });//final ajax
     }//final function carga Datos
->>>>>>> 7109d912c7d01c953ffca9b9443d652ac0a718fd
     
     
 }); //final document

@@ -17,17 +17,26 @@
 	const cliente = io.channel('Ventas').connect(function(error, connected){
 		// console.log(error, connected)
 	});
+    $(document).ready(function(){
+       Llena_Grafica();
     cliente.on('message', function(message){
-		var ctx = document.getElementById('chart').getContext('2d')
+        alert("message");
+		Llena_Grafica();
+    });//final clienteon
+   
+    
+    function Llena_Grafica(){
+        var ctx = document.getElementById('chart').getContext('2d')
         var label=[];
         var dat=[];
         $.ajax({
-          url: "datos_grafica",
-          context: document.body
+            url: "/datos_grafica",
+            type:"post"
         }).done(function(e) {
 	       $.each(e,function(index,value){
-               label.push(value.name);
-               dat.push(parseInt(value.data));
+               console.log(value);
+               label.push(value.nombre);
+               dat.push(parseInt(value.sum));
             });
             var chart = new Chart(ctx)
           chart = new Chart(ctx, {
@@ -64,9 +73,10 @@
             }
           }); //final chart
         });//final done function
-    });//final clienteon
-   
+        
+    }//final llena grafica
     
+    });
     
 </script>
 {% endblock %}
