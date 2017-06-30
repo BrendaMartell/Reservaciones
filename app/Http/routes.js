@@ -18,6 +18,7 @@ Route.get('/cargarImagen','FuncionsController.imagenesPelicula')
 
 //RUTAS DE BRENDA
 Route.on('/log').render('login')
+Route.on('/reg').render('registro')
 Route.get('/registra_Rol', 'RolesController.Registro');
 Route.get('/registra_Persona', 'PersonsController.Registro');
 Route.get('/registra_Usuario', 'UsersController.Registro');
