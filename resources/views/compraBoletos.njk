@@ -142,6 +142,7 @@
                        <br/>
                        <br/>
                        <div id="asientos"></div>
+                       <div class="col-sm-2"><button id="btnGuardar">Guardar</button></div>
                    </div>
                    <!--Contenido de la Pestaña 3-->
                    <div id="content-3">
@@ -205,9 +206,9 @@
         <script src="https://unpkg.com/adonis-websocket-client@1.0.2/dist/ws.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                console.log('{{funciones[0].id}}')
-                $('#Imagen').attr('src','{{funciones[0].image}}')
-                $('#Clasificacion').html('{{funciones[0].clasificacion}}')
+                console.log('{{funciones[0].id}}') 
+                $('#Imagen').attr('src','{{funciones[0].imagen}}')
+                $('#Clasificacion').html('Clasificacion: ' + ' {{funciones[0].clasificacion}}')
                 //$('#Fecha/Hora').html(funcion.fecha + funcion.hora)
                 //$('#Sinopsis').html(funcion.sinopsis)
                 
@@ -247,15 +248,29 @@
                         type:'Post',
                         url:'/Login/Boletos/{{funciones[0].id}}'
                     }).done(function(response){
-                        console.log(response)
+                        $.each(response,function(a,b){
+                            $('#Asiento-'+b.localidad).attr("class","cuadrado-Ocupado")
+                        })
                     })
                 }
+                
+                $('#btnGuardar').click(function(){
+                    $.ajax({
+                        type:'Post',
+                        url:'/Login/Venta',
+                        data:{asientos:Asientos,funcion:'{{funciones[0].id}}'}
+                    }).done(function(response){
+                        
+                    })
+                })
+                
+                
                 
                 agregarAsientos();
                 function agregarAsientos(){
                     $('#content-2 #asientos').children().remove()
                     for(var i = 1; i<=50; i++){
-                        $('#content-2 #asientos').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div></div>')
+                        $('#content-2 #asientos').append('<div class="col-sm-2"><div id="Asiento-'+i+'"  class="cuadrado-Noseleccionado">'+i+'</div>')
                         logicaWebsocket(i)
                     } 
                 }
@@ -396,8 +411,8 @@
                 height: 75;
                 border: 3px solid #555;
                 font-size: small;
-                color:darkred;
-                background-color:forestgreen;
+                color:aliceblue;
+                background-color:firebrick;
             }
             * {
                  font-family: Arial, sans;

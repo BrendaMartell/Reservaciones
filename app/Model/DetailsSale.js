@@ -12,7 +12,7 @@ class DetailsSale extends Lucid {
         }
     }
     
-    set get validaEliminacion(){
+    static get validaEliminacion(){
         return {
             id_venta:'required'
         }
