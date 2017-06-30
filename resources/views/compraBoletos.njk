@@ -203,14 +203,22 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 var funcion = '{{funciones[0].id}}'
+<<<<<<< HEAD
+                console.log('{{funciones[0].id}}')
+=======
                 
+>>>>>>> c9d60645bc63017bc005a3ec9c0129ab983c7afe
                 $('#Imagen').attr('src',"/imagenes/" + '{{funciones[0].imagen}}')
                 $('#Clasificacion').html('<div class="col-md-12"><p><b>Clasificacion:</b> ' +  '{{funciones[0].clasificacion}}'+"</p></div>");
                 
                 $('#Video').html('<div class="col-md-12"><p><b><a href="'+ '{{funciones[0].video}}'+'"  target="_blank" >Ver Trailer</a></b></p></div>');
                 $('#Fecha_Hora').html('<div class="col-md-12"><p><b>Fecha y Hora:</b> '+'{{funciones[0].fecha}}' + " - " + '{{funciones[0].hora}}'+"</p></div>");
                 $('#Sinopsis').html('<div class="col-md-12"><p><b>Sinopsis: </b>'+ '{{funciones[0].sinopsis}}'+"</p></div>");
+<<<<<<< HEAD
+
+=======
                 
+>>>>>>> c9d60645bc63017bc005a3ec9c0129ab983c7afe
                 
                 var cantBoletos=0
                 var info = {}
