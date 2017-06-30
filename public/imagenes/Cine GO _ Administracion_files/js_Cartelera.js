@@ -81,7 +81,7 @@ $(document).ready(function(){
                             '<div class="box-footer box-comments">' +
                                 '<div class="box-comment">' +
                                     '<div class="comment-text">' +
-                                        '<a href="/login/boletos/' + response[a].id + '" class="hora" id="' + response[a].id + '"><span class="text-muted pull-right">' + response[a].hora + '</span></a>' +
+                                        '<a href="" class="hora"><span class="text-muted pull-right">17:55</span></a>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -93,7 +93,7 @@ $(document).ready(function(){
                               '<div class="user-block">' +
                                 '<img class="img-circle" src="/imagenes/' + response[a].imagen + '" alt="User Image">' +
                                 '<span class="username">' +
-                                    '' + response[a].nombre + '</span>' +
+                                    '<a href="#" id="nombre">' + response[a].nombre + '</a></span>' +
                               '</div>' +
                             '</div>'+
                             '<div class="row">' +
@@ -101,7 +101,7 @@ $(document).ready(function(){
                                     '<div class="box-footer box-comments">' +
                                       '<div class="box-comment">' +
                                         '<div class="comment-text">' +
-                                            '<a href="/login/boletos/'+ response[a].id +'" class="hora" id="' + response[a].id + '"><span class="text-muted pull-right">' + response[a].hora + '</span></a>' +
+                                            '<a href="" class="hora"><span class="text-muted pull-right">' + response[a].hora + '</span></a>' +
                                         '</div>' +
                                       '</div>' +
                                     '</div>' +
