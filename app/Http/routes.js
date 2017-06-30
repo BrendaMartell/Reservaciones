@@ -87,3 +87,20 @@ Route.post('filt_fnes', 'FunctionsController.filt_fnes');
 Route.post('SalasDisp', 'RoomsController.disponibles');
 Route.post('EnCartelera', 'MoviesController.enCartelera');
 Route.post('TpsFuncion', 'TypeFunctionsController.Tipos');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
