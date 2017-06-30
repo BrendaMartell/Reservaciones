@@ -6,10 +6,10 @@ Route.on('/').render('inicio')
 Route.on('/cartelera').render('cartelera')
 Route.on('/nosotros').render('nosotros')
 Route.on('/galeria').render('galeria')
-Route.on('/Login/Boletos').render('compraBoletos')
+Route.get('/Login/Boletos/:funcion','FunctionsController.funcionEspesifica')
+Route.post('/Login/Boletos/:funcion','PlacesController.asientosFuncion')
 Route.post('/Login/insertarAsiento','PlacesController.Insertar')
 Route.post('/Login/eliminarAsiento','PlacesController.Eliminar')
-
 
 Route.get('/insertAdmin','UsersController.insertAdmin')
 Route.get('/insertClient','UsersController.insertClient')
