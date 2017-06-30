@@ -19,6 +19,9 @@ Route.get('/cargarImagen','FuncionsController.imagenesPelicula')
 //RUTAS DE BRENDA
 Route.on('/log').render('login')
 Route.on('/reg').render('registro')
+Route.get('/reg', function * (request, response) {
+    response.sendView("reg",{persona:"",usuario:""});
+}).middleware('auth');
 Route.get('/registra_Rol', 'RolesController.Registro');
 Route.get('/registra_Persona', 'PersonsController.Registro');
 Route.get('/registra_Usuario', 'UsersController.Registro');
@@ -29,6 +32,7 @@ Route.on('/I').render('master').middleware('auth');
 Route.post('DUser','PersonsController.DUser');
 
 //Routes_Catalogos
+Route.post('reg_cte','PersonsController.insertCte');
 Route.get('cat_ctes').render('cClientes').middleware('auth');
 Route.get('cat_emp').render('cEmpleados').middleware('auth');
 Route.get('cat_salas').render('cSalas').middleware('auth');

@@ -75,8 +75,8 @@ class FunctionsController {
         console.log(funcion)
         const funciones = yield Database.from('functions')
         .innerJoin('movies', 'functions.id_pelicula','movies.id')
-        //.innerJoin('rooms', 'functions.id_sala','rooms.id')
-        //.innerJoin('type_functions', 'functions.id_tipo_funcion','type_functions.id')
+        .innerJoin('rooms', 'functions.id_sala','rooms.id')
+        .innerJoin('type_functions', 'functions.id_tipo_funcion','type_functions.id')
         .where('functions.id','=',funcion.funcion);
         console.log(funciones)
         yield response.sendView('compraBoletos',{funciones})

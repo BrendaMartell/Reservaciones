@@ -152,25 +152,25 @@
         <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/bootstrap.min.js"></script>
     
-    <script src="js/js/js_Cart.js"></script>
 		
 		<!-- Scrolling Nav JavaScript -->
 		<script src="js/jquery.easing.min.js"></script>
+    <script src="js/js/js_Cart.js"></script>
 		<script src="js/scrolling-nav.js"></script>	
         <script src="https://unpkg.com/adonis-websocket-client@1.0.2/dist/ws.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                var info = {
+                /*var info = {
                     asientoActual:"",
                     asientoAnterior:"",
                     error:false,
                     usuario:{{currentUser.id}}
-                }
+                };*/
                 const io = ws('')
                 const client = io.channel('Asientos').connect()
                 client.joinRoom('SalaA', {}, function (error, joined) {
-                    console.log(joined)
-                    console.log(error)
+                    console.log(joined);
+                    console.log(error);
                 })
                 client.on('message',function(a,b){
                     if(a.error == 'False'){

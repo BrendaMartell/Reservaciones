@@ -29,7 +29,7 @@ $(document).ready(function(){
 		        			    '<p><h3>' + response[a].nombre + '</h3></p>' +
 		        			    '<p>' + response[a].sinopsis + '</p>' +
                                 '<p>Clasificacion: ' + response[a].clasificacion + '</p>' +
-		        			   '<a href="#" class="btn">' + response[a].hora + '</a>'
+		        			   '<a href="/login/boletos/' + response[a].id + '" class="btn">' + response[a].hora + '</a>'
 		        		
                 }
                 nombre_pelicula=response[a].nombre;

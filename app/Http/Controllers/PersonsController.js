@@ -51,6 +51,36 @@ class PersonsController {
         }
     }
     
+    * insertCte(request,response){
+        const data=request.all();
+        const validacion = yield Validator.validate(data,Persona.validaInsert)
+        if(validacion.fails()){
+            yield response.send('No se ingresaron correctamente los datos')
+        }else{
+            const user = new User()
+            const persona=new Persona();
+            user.id_persona = data.id_persona
+            persona.nombres = data.nombres
+            persona.apellidos = data.apellidos
+            persona.email = data.email
+            persona.status = "Activo"
+            const id_persona=yield persona.save()
+            if(id_persona==true){
+                user.id_persona=persona.id;
+                user.id_rol = '1'
+                var num_tarj=Math.floor((Math.random() * 999999) + 100000);
+                user.numero_aut = "0000" + num_tarj;
+                user.password = yield Hash.make(data.password)
+                user.estado= "A"
+                yield user.save()
+                //yield response.redirect('/cat_ctes')
+            yield response.sendView('registro',{persona,user});
+            }else{
+            yield response.sendView('registro',{persona:persona,usuario:user});
+            }
+        }
+    }
+    
     * insertEmp(request,response){
         const data=request.all();
         const validacion = yield Validator.validate(data,Persona.validaInsert)
