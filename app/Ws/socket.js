@@ -16,3 +16,4 @@
 
 const Ws = use('Ws')
 Ws.channel('Asientos', 'AsientoController')
+Ws.channel('Ventas', 'VentasController')

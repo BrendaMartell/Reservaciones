@@ -15,7 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="admin_template/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="admin_template/dist/css/skins/_all-skins.min.css">
-
+<script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition login-page">
@@ -53,4 +53,11 @@
 </div>
 <!-- /.login-box -->
 </body>
+<script type='text/javascript'>
+        $(document).ready(function(){
+            $("#numero_aut").val('{{numero.num}}');
+        });
+
+</script>
+    
 </html>

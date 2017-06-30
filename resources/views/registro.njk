@@ -16,7 +16,7 @@
 <script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script src="js/js/js_registro.js"></script>
+
 </head>
 <body class="hold-transition login-page">
 
@@ -33,7 +33,7 @@
             {{ csrfField }}
                     <div class="box-body" id="Pnl_Registro" >
                         
-                <div class="alert alert-success alert-dismissible" style="display:none">
+                <div class="alert alert-success alert-dismissible" style="display:none" id="alerta">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-info"></i> Ahora puedes iniciar Sesion</h4>
                     Info alert preview. This alert is dismissable.
@@ -51,9 +51,9 @@
                           <label for="email">Email</label>
                           <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none">
                           <label for="numero_aut">Numero Tarjeta</label>
-                          <input type="text" class="form-control" id="numero_aut" name="numero_aut" placeholder="Numero de Tarjeta" disabled>
+                          <input type="text" class="form-control" id="numero_aut" name="numero_aut" placeholder="Numero de Tarjeta" readonly="true">
                         </div>
                         <div class="form-group pwd">
                           <label for="password">Password</label>
@@ -62,7 +62,7 @@
                       </div>
                       <div class="box-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" id="Btn_Cancela" class="btn btn-primary">Volver al Login</button>
+                        <button type="button" id="Btn_Cancela" href="/log" class="btn btn-primary">Volver al Login</button>
                       </div>
               
             </form>
@@ -71,4 +71,28 @@
                 <div class="col-md-4 col-lg-4"></div>
                 </div>
     </body>
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            var tab=document.getElementById('tbody');
+            var Pnl_Registro=document.getElementById('Pnl_Registro');
+            var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+            if('{{user.numero_aut}}' != "" ){
+                $("#alerta").html(
+                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+                    '<h4><i class="icon fa fa-info"></i> Ahora puedes iniciar Sesion</h4>' +
+                    'Tu numero de usuario para iniciar sesion es: <b>' + '{{user.numero_aut}}' + '</b>' 
+                    //'<a href="/logus/'+ '{{user.numero_aut}}' +'" class="btn btn-info">Logearme</a>'
+                );
+                document.getElementById('alerta').style.display = 'block';
+            }
+            $("#EnPantalla").text("Clientes")
+            var Movimiento ="";
+            console.log('{{user}}');
+            $("#nombres").val('{{persona.nombres}}');
+            $("#apellidos").val('{{persona.apellidos}}');
+            $("#email").val('{{persona.email}}');
+            $("#numero_aut").val('{{user.numero_aut}}');
+        });
+
+    </script>
 </html>

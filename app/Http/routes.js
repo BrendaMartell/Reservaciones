@@ -19,7 +19,14 @@ Route.on('/log').render('login')
 Route.on('/reg').render('registro')
 Route.get('/reg', function * (request, response) {
     response.sendView("reg",{persona:"",usuario:""});
-}).middleware('auth');
+});
+Route.get('/logus/:num', function * (request, response) {
+    const numero=request.params();
+    yield response.sendView("login",{numero});
+});
+Route.on('/log/:num').render('login');
+
+
 Route.get('/registra_Rol', 'RolesController.Registro');
 Route.get('/registra_Persona', 'PersonsController.Registro');
 Route.get('/registra_Usuario', 'UsersController.Registro');
@@ -41,6 +48,7 @@ Route.get('cat_tboleto').render('cTipoBoleto').middleware('auth');
 Route.get('cat_roles').render('cRoles').middleware('auth');
 Route.get('cat_fnes').render('cFunciones').middleware('auth');
 Route.get('cat_cartelera').render('cCartelera').middleware('auth');
+Route.get('cat_grafica').render('chart').middleware('auth');
 
 
 Route.post('nvo_cte', 'PersonsController.insert');
