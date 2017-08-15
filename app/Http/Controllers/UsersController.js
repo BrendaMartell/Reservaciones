@@ -1,13 +1,12 @@
 'use strict'
 const Validator = use('Validator')
 const Hash = use('Hash')
-const User = use('App/Model/User')
-const Persona = use('App/Model/Person')
+const User = use('App/Model/Users')
+const RolPersona = use('App/Model/RolesPersonas')
 const Database = use('Database')
 
 class UsersController {
-    
-    * viewRegistro(request,response){
+* viewRegistro(request,response){
         yield response.sendView('registro')
     }
     
@@ -17,7 +16,6 @@ class UsersController {
         user.id_rol = 1
         user.numero_aut = "0000234567"
         user.password = yield Hash.make("1234")
-        user.estado="A"
         yield user.save()
         yield response.redirect('/log')
     }
@@ -46,18 +44,34 @@ class UsersController {
     
     * insert(request,response){
         const data = request.all()
-        const validacion = yield Validator.validate(data,User.validaInsert)
+        console.log(data)
+        const validacion = yield Validator.validate(data, User.insertNvoRegistro)
         if(validacion.fails()){
             yield response.send('No se ingresaron correctamente los datos')
         }else{
             const user = new User()
-            user.id_persona = data.id_persona
-            user.id_rol = data.id_rol
-            user.numero_aut = data.numero_aut
-            user.password = yield Hash.make(data.password)
-            user.estado= data.estado
+            user.nombre = data.nombre
+            user.a_paterno = data.a_paterno
+            user.a_materno = data.a_materno
+            user.direccion= data.direccion
+            user.telefono= data.telefono
+            user.email= data.email
+            user.password = yield Hash.make("abc1234")
             yield user.save()
-            yield response.redirect('/')
+            
+            const id=user.id;
+            console.log(id);
+            const rol = new RolPersona();
+            rol.personas_id=user.id
+            rol.roles_id=1
+            yield rol.save()
+            /*yield request
+            .withAll() 
+            .andWith({errors: "Para iniciar se envio una contrasena provicional que debe actualizar para poder ingresar"}) 
+            .flash()*/
+            yield response.redirect('/').withAll() 
+            .andWith({errors: "Para iniciar se envio una contrasena provicional que debe actualizar para poder ingresar"}) 
+            .flash()
         }
     }
     * insertAdmin(request,response){
@@ -79,8 +93,6 @@ class UsersController {
             yield user.save()
     }
     
-    
-    
     * Clientes(request,response){
         const users = yield Database.from('users')
         .innerJoin('people','people.id','users.id_persona').where('users.id_rol',1);
@@ -93,7 +105,6 @@ class UsersController {
         yield response.json(users)
     }
 
-    
     * logout(request, response) {
         yield request.auth.logout();
         return response.redirect('/');

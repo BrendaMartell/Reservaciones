@@ -4,29 +4,29 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Cine GO | Recorriendo tu Alma</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="admin_template/dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="admin_template/dist/css/skins/_all-skins.min.css">
-<script src="admin_template/plugins/jQuery/jquery-3.1.1.min.js"></script>
+  <link rel="stylesheet" href="Tema/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="Tema/dist/css/skins/_all-skins.min.css">
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/inicio"><img class="img img-responsive" src="/imagenes/logo.png"></a>
+    <!-- <a href="/menu"><img class="img img-responsive" src="/imagenes/logo.png"></a> -->
   </div>
-  <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Iniciar Sesion</p>
 
+    {% for error in old('errors') %} 
+        <div class="alert alert-success alert-dismissible" id="alerta">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-info"></i>{{ error.message }}</h4>
+        </div>
+    {% endfor %}
     <form method="POST" action="/login">
      {{ csrfField }}
       <div class="form-group has-feedback">

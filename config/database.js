@@ -73,7 +73,7 @@ module.exports = {
       port: 5432,
       user: 'postgres',
       password: 'admin',
-      database: 'Cine'
+      database: 'restaurant'
     }
   }
 
