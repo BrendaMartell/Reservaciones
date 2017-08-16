@@ -1,9 +1,10 @@
 'use strict'
-var nodemailer = require('nodemailer');
+var nodemailer = use('Mail');
 
 class EmailsController {
-    exports.sendEmail = function(req, res){
+    * sendEmail (request, response){
         // Definimos el transporter
+        var correo = request.param('correo')
         var transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -15,7 +16,7 @@ class EmailsController {
         // Definimos el email
         var mailOptions = {
             from: 'Remitente',
-            to: 'brendalauramartell@gmail.com',
+            to: correo,
             subject: 'Contrasenia Provicional',
             text: 'Contenido del email'
         };//final mailOptions
@@ -30,7 +31,9 @@ class EmailsController {
                 res.status(200).jsonp(req.body);
             }
         });//final sendMail
-    };
+        var mensaje = 'Se acaba de enviar un correo de confirmacion a su correo.'
+        response.redirect('/mensaje',{mensaje:mensaje})
+    }
 }
 
 module.exports = EmailsController

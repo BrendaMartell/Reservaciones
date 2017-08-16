@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" id="Btn_Registra" class="btn btn-primary">Guardar</button>
                         <a type="button" id="Btn_Cancela" href="/log" class="btn btn-primary">Volver al Login</a>
                     </div>
                 </form>
@@ -100,26 +100,27 @@
         </div>
     </body>
     <script type='text/javascript'>
-        /*$(document).ready(function(){
-            var tab=document.getElementById('tbody');
-            var Pnl_Registro=document.getElementById('Pnl_Registro');
-            var Pnl_Tabla=document.getElementById('Pnl_Tabla');
-            if('{{user.numero_aut}}' != "" ){
-                $("#alerta").html(
-                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-                    '<h4><i class="icon fa fa-info"></i> Ahora puedes iniciar Sesion</h4>' +
-                    'Tu numero de usuario para iniciar sesion es: <b>' + '{{user.numero_aut}}' + '</b>' 
-                    //'<a href="/logus/'+ '{{user.numero_aut}}' +'" class="btn btn-info">Logearme</a>'
-                );
-                document.getElementById('alerta').style.display = 'block';
-            }
-            $("#EnPantalla").text("Clientes")
-            var Movimiento ="";
-            console.log('{{user}}');
-            $("#nombres").val('{{persona.nombres}}');
-            $("#apellidos").val('{{persona.apellidos}}');
-            $("#email").val('{{persona.email}}');
-            $("#numero_aut").val('{{user.numero_aut}}');
-        });*/
+        $(document).ready(function(){
+            $("#Btn_Registra").click(function(){
+                var f=$(this);
+                var formData = new FormData(document.getElementById("formulario"));
+                //formData.append("dato", "valor");
+                formData.append(f.attr("name"), $(this)[0].files);
+                console.log(formData);
+                $.ajax({
+                    url:'/nvo_cte',
+                    type:'post',
+                    data: formData,
+                    datatype:'json'
+                })//Final ajax
+                .done(function(response){
+                    console.log(response.id.toString());
+                });//final done
+            });//final btin registra click
+
+            $("#Btn_Cancela").click(function(){
+            });//final btn registra click
+            
+        });
     </script>
 </html>

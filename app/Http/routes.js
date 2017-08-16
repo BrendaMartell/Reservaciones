@@ -19,11 +19,13 @@ Route.get('/logus/:num', function * (request, response) {
     yield response.sendView("login",{numero});
 });
 Route.on('/log/:num').render('login');
-Route.post('/enviar', 'EmailsController.sendEmail');
+
+Route.get('/enviar/:correo', 'EmailsController.sendEmail'); //Enviar Correo
+Route.post('/nvo_cte', 'UsersController.insert'); //Registrar un Nuevo Cliente, desde Formulario Externo
 
 
 
-
+Route.post('/login','UsersController.login')
 
 
 

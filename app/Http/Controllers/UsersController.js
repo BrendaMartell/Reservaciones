@@ -22,24 +22,26 @@ class UsersController {
     
     
     * login(request, response) {
-       	const usuario = request.input('numero_aut');
-        const password = request.input('password');
-        console.log(usuario,password)
+        var data = request.all()
         const loginMessage = {
             success: 'Logged-in Successfully!',
             error: 'Invalid Credentials'
         }
-        const authCheck = yield request.auth.attempt(usuario, password);
-        if (authCheck) {
-            var Tipo =  yield Database.table('users').join('roles','users.id_rol','=','roles.id').where({numero_aut:usuario})
-            if(Tipo[0].descripcion == 'Empleado'){
-                return response.redirect('/I');
-            }else{
-                return response.redirect('/')
-            }
-            
+        const validacion = yield Validator.validate(data, User.validaLogin)
+        if(validacion.fails()){
+            yield response.send('No se ingresaron correctamente los datos')
+        }else{
+            const authCheck = yield request.auth.attempt(data.correo, data.password);
+            if(authCheck) {
+                var Tipo =  yield Database.table('users').join('roles_personas','users.id','=','roles_personas.personas_id').join('roles','roles_personas.roles_id','=','roles.id').where('users.email',data.correo)
+                if(Tipo[0].nombre_rol == 'Empleado'){
+                    return response.send('funciona');
+                }else{
+                    return response.redirect('/menu');
+                }
+                //yield response.sendView({error: loginMessage.error });
+            }   
         }
-        yield response.sendView('/log', { error: loginMessage.error });
     }
     
     * insert(request,response){
@@ -60,18 +62,12 @@ class UsersController {
             yield user.save()
             
             const id=user.id;
-            console.log(id);
             const rol = new RolPersona();
             rol.personas_id=user.id
             rol.roles_id=1
             yield rol.save()
-            /*yield request
-            .withAll() 
-            .andWith({errors: "Para iniciar se envio una contrasena provicional que debe actualizar para poder ingresar"}) 
-            .flash()*/
-            yield response.redirect('/').withAll() 
-            .andWith({errors: "Para iniciar se envio una contrasena provicional que debe actualizar para poder ingresar"}) 
-            .flash()
+            //yield response.send(user);
+            yield response.redirect("/enviar/"+user.email)
         }
     }
     * insertAdmin(request,response){

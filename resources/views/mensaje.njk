@@ -1,0 +1,14 @@
+{% extends 'master' %}
+
+{% block content %}
+  <div class="__banner">
+    <div class="banner__inner">
+        {% for mensaje in old('errors') %} 
+            <div class="alert alert-success alert-dismissible" id="alerta">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-info"></i>{{ mensaje.mensaje }}</h4>
+            </div>
+        {% endfor %}
+    </div>
+  </div>
+{% endblock %}

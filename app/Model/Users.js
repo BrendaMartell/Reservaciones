@@ -47,6 +47,13 @@ class Users extends Lucid {
             email:'required'
         }
     }
+    
+    static get validaLogin(){
+        return {
+            correo:'required',
+            password:'required'
+        }
+    }
 }
 
 
