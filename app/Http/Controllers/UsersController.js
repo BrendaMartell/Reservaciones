@@ -6,19 +6,16 @@ const RolPersona = use('App/Model/RolesPersonas')
 const Database = use('Database')
 
 class UsersController {
-* viewRegistro(request,response){
+    * viewRegistro(request,response){
         yield response.sendView('registro')
     }
-    
-    * Registro(request,response){
-        const user = new User()
-        user.id_persona = 1
-        user.id_rol = 1
-        user.numero_aut = "0000234567"
-        user.password = yield Hash.make("1234")
-        yield user.save()
-        yield response.redirect('/log')
+    * viewLogin(request,response){
+        yield response.sendView('login')
     }
+    * viewMenu(request,response){
+        yield response.sendView('master')
+    }
+    
     
     
     * login(request, response) {
@@ -37,7 +34,7 @@ class UsersController {
                 if(Tipo[0].nombre_rol == 'Empleado'){
                     return response.send('funciona');
                 }else{
-                    return response.redirect('/menu');
+                    yield response.redirect('/menu');
                 }
                 //yield response.sendView({error: loginMessage.error });
             }   

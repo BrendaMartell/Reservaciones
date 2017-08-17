@@ -29,7 +29,7 @@
                         <h4><i class="icon fa fa-info"></i>{{ error.message }}</h4>
                     </div>
                 {% endfor %}
-                <form id="formulario" role="form" method="POST" action="/reg_cte">
+                <form id="formulario" role="form" method="POST" action="/registro">
                     {{ csrfField }}
                     <div class="box-body" id="Pnl_Registro" >
                         <div class="alert alert-success alert-dismissible" style="display:none" id="alerta">
@@ -108,7 +108,7 @@
                 formData.append(f.attr("name"), $(this)[0].files);
                 console.log(formData);
                 $.ajax({
-                    url:'/nvo_cte',
+                    url:'/registro/insert',
                     type:'post',
                     data: formData,
                     datatype:'json'
