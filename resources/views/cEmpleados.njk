@@ -1,0 +1,136 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/js_Empleados.js"></script>
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Listado de Empleados Registrados</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Nombre</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 207px;">Ap. Paterno</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 143px;">Ap. Materno</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Rol</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Direccion</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Telefono</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 184px;">Email</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Nombre</th>
+                                    <th rowspan="1" colspan="1">Ap. Paterno</th>
+                                    <th rowspan="1" colspan="1">Ap. Materno</th>
+                                    <th rowspan="1" colspan="1">Rol</th>
+                                    <th rowspan="1" colspan="1">Direccion</th>
+                                    <th rowspan="1" colspan="1">Telefono</th>
+                                    <th rowspan="1" colspan="1">Email</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" style="display: none;">
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Catalogo Clientes</h3>
+            </div>
+            
+                <form id="formulario" role="form" method="POST" action="/menu/cliente/in">
+                    {{ csrfField }}
+                    <div class="box-body" id="Pnl_Registro" >
+                        <div class="alert alert-success alert-dismissible" style="display:none" id="alerta">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-info"></i>Verifique su Correo Electronico</h4>
+                            Se envio un correo a la direccion de correo reigstrada para confirar su registro y cambiar su password provicional.
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="roles_id">Rol</label>
+                                    <select class="form-control" class="selectpicker" id="roles_id" name="roles_id">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="nombre">Nombres</label>
+                                    <input type="hidden" class="form-control" id="id_persona" name="id_persona" placeholder="Ingrese su nombre(s)">
+                                    <input style="text-transform: uppercase;" type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre(s)">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="a_paterno">Apellido Paterno</label>
+                                    <input style="text-transform: uppercase;" type="text" class="form-control" id="a_paterno" name="a_paterno" placeholder="Ap. Paterno">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="a_materno">Apellido Materno</label>
+                                    <input style="text-transform: uppercase;" type="text" class="form-control" id="a_materno" name="a_materno" placeholder="Ap. Materno">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="nombre">Direccion</label>
+                                    <input style="text-transform: uppercase;" type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese su direccion">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label for="telefono">Numero Telefono</label>
+                                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="NUMERO DE TELEFONO">
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="EMAIL">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group pwd" style="display:none">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="INGRESE SU PASSWORD">
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="Btn_Registra" class="btn btn-primary">Guardar</button>
+                        <a type="button" id="Btn_Cancela" href="/menu" class="btn btn-primary">Cancelar</a>
+                    </div>
+                </form>
+          </div>
+{% endblock %}

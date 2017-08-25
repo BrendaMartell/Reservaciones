@@ -1,0 +1,121 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/js_Menu.js"></script>
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Menu</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80;">Imagen</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80px;">Imagen</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 150;">Nombre de Producto</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 250px;">Descripcion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;">Pecio U.</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 150px;">Tipo de Producto</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Imagen</th>
+                                    <th rowspan="1" colspan="1">Imagen</th>
+                                    <th rowspan="1" colspan="1">Nombre de Producto</th>
+                                    <th rowspan="1" colspan="1">Descripcion</th>
+                                    <th rowspan="1" colspan="1">Precio U.</th>
+                                    <th rowspan="1" colspan="1">Tipo de Producto</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" >
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Menu</h3>
+            </div>
+            <form id="formulario" method="POST" action="/nvo_cte"  enctype="multipart/form-data">
+            {{ csrfField }}
+              <div class="box-body">
+                  <div class="row">
+                      <div class="c0l-lg-12 col-md-12">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="img-responsive pad" src="/imagenes/nodisponible.png" alt="Photo" style=" width:250px; height:200px" id="Foto">
+                                        <div class="form-group">
+                                          <label for="imagen">Selecciona Imagen</label>
+                                          <input type="file" id="imagen" name="imagen">
+                                          <input type="hidden" id="nombre-imagen" name="nombre-imagen">
+                                          <input type="hidden" id="id" name="id">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                          <label for="nombre_producto">Nombre de Producto</label>
+                                            <input rows="4"  class="form-control" id="nombre_producto" name="nombre_producto" placeholder="Nombre del Producto en Menu">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="descripcion">Descripcion</label>
+                                            <textarea rows="4"  class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion del Producto en Menu" rows="7"></textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                  <label for="precio">Precio</label>
+                                                  <input type="text" class="form-control" id="precio" name="precio" placeholder="Precio U.">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                  <label for="tipo_menu">Tipo de Menu</label>
+                                                    <select class="form-control" class="selectpicker" id="tipo_menu" name="tipo_menu">
+                                                        <option value="Bebida">Bebida</option>
+                                                        <option value="Desayuno">Desayuno</option>
+                                                        <option value="Platillo">Platillo</option>
+                                                        <option value="Postre">Postre</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" id="Btn_Cancela" class="btn btn-primary">Cancelar</button>
+              </div>
+            </form>
+          </div>
+{% endblock %}

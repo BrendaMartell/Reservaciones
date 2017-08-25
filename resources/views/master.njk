@@ -53,7 +53,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="Tema/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs NombreUs"></span>
+              <span class="hidden-xs NombreUs">Brenda 1</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -61,6 +61,7 @@
                 <img src="Tema/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p class="NombreUsuario">
+                    Brenda
                 </p>
               </li>
               <li class="user-footer">
@@ -106,25 +107,29 @@
           <ul class="treeview-menu">
             <li class="active"><a href="/cat_ctes"><i class="fa fa-circle-o"></i>Clientes</a></li>
             <li><a href="/cat_emp"><i class="fa fa-circle-o"></i>Empleados</a></li>
-            <li><a href="/cat_fnes"><i class="fa fa-circle-o"></i>Funciones</a></li>
-            <li><a href="/cat_pelicula"><i class="fa fa-circle-o"></i>Peliculas</a></li>
             <li><a href="/cat_roles"><i class="fa fa-circle-o"></i>Roles</a></li>
-            <li><a href="/cat_salas"><i class="fa fa-circle-o"></i>Salas</a></li>
-            <li><a href="/cat_tfns"><i class="fa fa-circle-o"></i>Tipos de Funcion</a></li>
-            <li><a href="/cat_tboleto"><i class="fa fa-circle-o"></i>Tipos de Boletos</a></li>
+            <li><a href="/cat_menu"><i class="fa fa-circle-o"></i>Menu</a></li>
           </ul>
         </li>
         <li class="active">
-          <a href="/cat_cartelera">
-            <i class="fa fa-th"></i><span>Cartelera</span>
+          <a href="/cat_Pedido">
+            <i class="fa fa-th"></i><span>Realizar Pedido</span>
             <span class="pull-right-container">
               <i class="pull-right"></i>
             </span>
           </a>
         </li>
         <li class="active">
-          <a href="/cat_grafica">
-            <i class="fa fa-th"></i><span>Grafica</span>
+          <a href="/nvo_pedido">
+            <i class="fa fa-th"></i><span>Historial de Pedidos</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="/nvo_pedido">
+            <i class="fa fa-th"></i><span>Hacer Reservacion</span>
             <span class="pull-right-container">
               <i class="pull-right"></i>
             </span>
@@ -135,6 +140,7 @@
   </aside>
 
   <div class="content-wrapper" style="min-height: 916px;">
+      <div id="alerta_general" style="display:none; padding: 20px 30px; background: rgb(255, 255, 0); z-index: 999999; font-size: 16px; font-weight: 600;"><a class="pull-right" data-toggle="tooltip" data-placement="left" title="" style="color: rgb(0, 0, 0); font-size: 20px;" data-original-title="Never show me this again!" id="cerrar">×</a>Tienes Nuevas Solicitudes de Pedido</div>
     <section class="content-header">
       <h1 id="EnPantalla">
         
@@ -190,8 +196,30 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="Tema/dist/js/pages/dashboard.js"></script>
 <script src="Tema/dist/js/demo.js"></script>
+    <script src="js/ws.js"></script>
 <script type="text/javascript">
-
+$(document).ready(function(){
+    const io = ws('');
+	const cliente = io.channel('Pedidos').connect(function(error, connected){});
+    
+    $("#cerrar").click(function(e){
+        e.preventDefault();
+        document.getElementById('alerta_general').style.display = 'none';  
+    })
+    
+    cliente.on('pedidosolicitud',function(room,mensaje){
+        console.log(mensaje);
+        //$("#alerta_general")
+        if (mensaje.us!='{{currentUser.id}}'){
+            document.getElementById('alerta_general').style.display = 'block';
+        }  
+    });
+    
+    cliente.joinRoom('PedidoAdministrador', {}, function (error, joined) {
+        console.log('Enviar Pedido a Administrador  ' + joined)
+    });
+    
+});
 </script>
 
     

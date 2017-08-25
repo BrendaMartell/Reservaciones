@@ -1,24 +1,18 @@
 'use strict'
 
-const Rol = use("App/Model/Role")
+const Rol = use("App/Model/Roles")
 const Validator=use("Validator")
 
 class RolesController {
-    * Registro(request,response){
-        const rol = new Rol()
-        rol.descripcion = "Cliente"
-        yield rol.save()
-        yield response.redirect('/log')
-    }
-    
     * insert(request,response){
         const data=request.all();
-        const validacion = yield Validator.validate(data,Rol.validaInsert)
+        const validacion = yield Validator.validate(data,Rol.validaciones)
         if(validacion.fails()){
             yield response.send('No se ingresaron correctamente los datos')
         }else{
+            console.log(data)
             const rol=new Rol();
-            rol.descripcion=data.descripcion;
+            rol.nombre_rol=data.nombre_rol;
             const insercion=yield rol.save()
             if(insercion==true){
                 yield response.redirect('/cat_roles')
@@ -31,12 +25,12 @@ class RolesController {
     * update(request,response){
         const data=request.all();
         console.log(data)
-        const validacion = yield Validator.validate(data,Rol.validaActualizacion)
+        const validacion = yield Validator.validate(data,Rol.validaciones)
         if(validacion.fails()){
             yield response.send('No se ingresaron correctamente los datos')
         }else{
             const rol= yield Rol.findBy('id', data.id)
-            rol.descripcion = data.descripcion
+            rol.nombre_rol = data.nombre_rol
             yield rol.save()
             yield response.redirect('/cat_roles')
         }

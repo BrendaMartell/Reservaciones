@@ -1,0 +1,73 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/js_Roles.js"></script>
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Listado de Clientes Registrados</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 168px;">Nombre Rol</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Nombre de Rol</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" style="display: none;">
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Catalogo Roles</h3>
+            </div>
+            
+                <form id="formulario" role="form" method="POST" action="/menu/roles/in">
+                    {{ csrfField }}
+                    <div class="box-body" id="Pnl_Registro" >
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre de Rol</label>
+                                    <input type="hidden" class="form-control" id="id" name="id" placeholder="Ingrese su nombre(s)">
+                                    <input style="text-transform: uppercase;" type="text" class="form-control" id="nombre_rol" name="nombre_rol" placeholder="Ingrese su nombre(s)">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="Btn_Registra" class="btn btn-primary">Guardar</button>
+                        <a type="button" id="Btn_Cancela" href="/menu" class="btn btn-primary">Cancelar</a>
+                    </div>
+                </form>
+          </div>
+{% endblock %}

@@ -42,7 +42,6 @@ class Users extends Lucid {
             a_paterno:'required',
             a_materno:'required',
             direccion:'required',
-            colonia:'required',
             telefono:'required',
             email:'required'
         }

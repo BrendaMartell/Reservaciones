@@ -1,0 +1,366 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/ws.js"></script>
+<!-- <script src="js/js_Pedido.js"></script> -->
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Pedidos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80;">Pedido</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80px;">Fecha</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 150;">Hora</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 250px;">Estado</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_principal">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Pedido</th>
+                                    <th rowspan="1" colspan="1">Fecha</th>
+                                    <th rowspan="1" colspan="1">Hora</th>
+                                    <th rowspan="1" colspan="1">Estado</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" >
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Menu</h3>
+            </div>
+            <form id="formulario">
+            {{ csrfField }}
+              <div class="box-body">
+                  <div class="row">
+                      <div class="c0l-lg-5 col-md-5">
+                          <h3>Menu</h3>
+                          <table id="tabla_menu" class="table table-striped" role="grid" aria-describedby="example1_info" width="350px" height="500px">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 180px;">Platillo</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 50px;">Precio</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_menu">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">Platillo</th>
+                                        <th rowspan="1" colspan="1">Precio</th>
+                                        <th rowspan="1" colspan="1"></th>
+                                    </tr>
+                                </tfoot>
+                           </table>
+                      </div>
+                      <div class="c0l-lg-1 col-md-1">
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                          <div class="row">
+                            <div class="col-md-4 col-lg-4">
+                                <h3>Orden</h3>
+                            </div>
+                            <div class="col-md-8 col-lg-8">
+                                <h3 id="Total" style="float: right;"></h3>
+                            </div>
+                          </div>
+                          <table id="tabla_orden" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info" width="350px">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 180px;">Platillo</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 50px;">Precio</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 50px;">Cant.</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;">Total</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_orden">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">Platillo</th>
+                                        <th rowspan="1" colspan="1">Precio</th>
+                                        <th rowspan="1" colspan="1">Cantidad</th>
+                                        <th rowspan="1" colspan="1">Total</th>
+                                        <th rowspan="1" colspan="1"></th>
+                                    </tr>
+                                </tfoot>
+                           </table>
+                      </div>
+                  </div>
+              </div>
+              <div class="box-footer">
+                <button type="button" class="btn btn-primary" id="Btn_Guardar">Guardar</button>
+                <button type="button" id="Btn_Cancela" class="btn btn-primary">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    const io = ws('');
+	const cliente = io.channel('Pedidos').connect(function(error, connected){});
+    
+    var tab=document.getElementById('tbody_menu');
+    var tab_orden=document.getElementById('tbody_orden');
+    var tab_pedido=document.getElementById('tbody_principal');
+    var Pnl_Registro=document.getElementById('Pnl_Registro');
+    var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+    $("#EnPantalla").text("Nuevo Pedido")
+    var Movimiento ="";
+    Carga_Datos("/all_pedidos/" + '{{currentUser.id}}');
+    Deshabilita_Registro();
+    
+     function Llena_Menu(){
+        $.ajax({
+             url:"/all_menu",
+             type:'post',
+             data:"",
+             datatype:'json'
+         }).done(function(response){
+            $.each(response,function(a,b){
+                $("#id").val(response[a].id);
+                tab.innerHTML +=
+                '<tr  role="row" class="odd" id="'+ response[a].id +'" attr="'+ response[a].id +'">'+
+                '<td class="alias" style="width: 180px;">'+ response[a].nombre_producto +'</td>'+
+                '<td class="alias" style="width: 50px; text-align: right;">'+ response[a].precio +'</td>'+
+                '<td class="Btn_Agregar" data-id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="glyphicon glyphicon-plus" style="width: 20px;"></i></button></td>'+
+                '</tr>';
+            });// final each
+        });//final ajax
+    }//final function carga Datos
+    
+    $("#Btn_Registra").click(function(){
+        $("#titulo_formulario").text("Registro de Nuevo Pedido");
+        Habilita_Registro();
+        Llena_Menu();
+        Movimiento="Alta";
+    });//final btin registra click
+    
+    $("#Btn_Cancela").click(function(){
+        Deshabilita_Registro();
+    });//final btin registra click
+    
+    function Hora(){
+        var Digital=new Date();
+        var hours=Digital.getHours();
+        var minutes=Digital.getMinutes();
+        var seconds=Digital.getSeconds();
+        var dn="AM";
+        if (hours>12){
+        dn="PM";
+        hours=hours-12;
+        }
+        if (hours==0)
+        hours=12;
+        if (minutes<=9)
+        minutes="0"+minutes;
+        if (seconds<=9)
+        seconds="0"+seconds;
+        return hours + ":" + minutes;
+    }
+    
+    function Fecha(){
+        var Mes = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+        var Hoy = new Date();
+        var Anio = Hoy.getFullYear();
+        var FechaHoy=Anio + "/" + Mes[Hoy.getMonth()] + "/" + Hoy.getDate();
+        return FechaHoy;
+    }
+    
+    $("#Btn_Guardar").click(function(e){
+        e.preventDefault();
+        
+        cliente.joinRoom('PedidoAdministrador', {}, function (error, joined) {
+            console.log('Enviar Pedido a Administrador  ' + joined)
+        });
+        
+        var Detalle_orden = {
+            'detalle': [],
+            'ordenes_id': ""
+        };
+        var Orden ={
+            'hora':Hora(),
+            'fecha':Fecha(),
+            'estado':"Solicitud",
+            'personas_id': '{{ currentUser.id }}',
+            'rol_personas_id': 5
+        };
+        
+        for (var i = 0; i < tab_orden.rows.length; i++){
+            columnas = tab_orden.rows[i].getElementsByTagName('td');
+            var id=columnas.name;
+            Detalle_orden.detalle.push({
+                "menu_id": id, 
+                "precio": parseFloat(columnas[1].innerHTML), 
+                "cantidad": parseInt(columnas[2].innerHTML), 
+                "total_platillo": parseFloat(columnas[3].innerHTML)
+            });
+        }
+        if (Movimiento=="Alta"){
+             $.ajax({
+                 url:"/nvo_pedido",
+                 type:'post',
+                 data:Orden,
+                 datatype:'json'
+             }).done(function(response){
+                    //console.log(response.id);
+                Detalle_orden.ordenes_id=response.id;
+                $.ajax({
+                    url:"/nvo_detalle",
+                    type:'post',
+                    data:Detalle_orden,
+                    datatype:'json'
+                }).done(function(response){
+                    cliente.emit('pedidosolicitud',{'us':'{{ currentUser.id }}'})
+                    //cliente.emit('pedidosolicitud','Se tienen nuevas solicitudes de pedido');
+                });//final ajax2
+            });//final ajax
+        }  //final iff alta
+        
+        cliente.leaveRoom("PedidoAdministrador", {}, function (error, left) {
+            console.log('Salida de PedidoAdministrador');
+        });
+    });
+    
+    cliente.on('pedidosolicitud',function(room,mensaje){
+        //alert(mensaje);
+    });
+    
+    $('#tbody').on('click', '.Btn_Editar', function(e) {
+        e.preventDefault();
+        $("#titulo_formulario").text("Edicion de Pedido");
+        $('#formulario').attr('action','/edit_pedido');
+        //Movimiento="Editar"
+        var id=$(this).attr("id");
+        var valores="";
+        var pedido = [];
+        pedido.push(id);
+        $(this).parents("tr").find("td").each(function(){
+            pedido.push($(this).html());
+            valores+=$(this).html()+"\n";
+        });
+        console.log(pedido);
+        Habilita_Registro();
+      /*  $("#id_persona").val(empleado[0]);
+        $("#nombre").val(empleado[1]);
+        $("#a_paterno").val(empleado[2]);
+        $("#a_materno").val(empleado[3]);
+        $("#direccion").val(empleado[4]);
+        $("#telefono").val(empleado[5]);
+        $("#email").val(empleado[6]);
+        $("#password").val("********");
+        $(".pwd").hide()*/
+    });
+    
+      $('#tbody_menu').on('click', '.Btn_Agregar', function(e) {
+        e.preventDefault();
+        var id=$(this).attr("data-id");
+        var valores="";
+        var pedido = [];
+        pedido.push(id);
+          var cont =0;
+        $(this).parents("tr").find("td").each(function(e){
+            cont+=1;
+            pedido.push($(this).html());
+            valores+=$(this).html()+"\n";
+        });
+          
+        var cantidad=1;
+        var total=1*parseFloat(pedido[2]);
+        var totaltotal=0;
+        var total_platillo=0;
+        var existe=false;
+          
+        for (var i = 0; i < tab_orden.rows.length; i++){
+            columnas = tab_orden.rows[i].getElementsByTagName('td');
+            if (columnas[0].innerHTML == pedido[1]){
+                existe=true;
+                cantidad=parseInt(columnas[2].innerHTML)+1;
+                total=parseInt(cantidad)*pedido[2];
+                columnas[2].innerHTML=cantidad;
+                columnas[3].innerHTML=total;
+            }
+            totaltotal+=parseFloat(columnas[3].innerHTML);
+        }
+        
+        Habilita_Registro();
+        if(existe==false){
+        totaltotal+=1*parseFloat(pedido[2]);
+            tab_orden.innerHTML +=
+            '<tr  role="row" class="odd" name="' + pedido[0] + '" id="'+ pedido[0] +'" data-identificador="' + pedido[0] + '">'+
+            '<td class="alias" style="width: 180px;">'+ pedido[1] +'</td>'+
+            '<td class="alias" style="width: 50px; text-align: right;">'+ pedido[2]+'</td>'+
+            '<td class="alias" style="width: 50px; text-align: right;">'+ cantidad +'</td>'+
+            '<td class="alias" style="width: 50px; text-align: right;">'+ total +'</td>'+
+            '<td class="Btn_Agregar" data-id="'+ pedido[0] + '"><button class="btn btn-primary" type="button"><i class="fa fa-trash" style="width: 20px;"></i></button></td>'+
+            '</tr>';
+        }
+        $("#Total").html("Total:          " + totaltotal.toString());
+    });
+    
+    function Habilita_Registro(){
+        $("#Pnl_Registro").show();
+        $("#Pnl_Tabla").hide();
+    }
+    
+    function Deshabilita_Registro(){
+        $("#Pnl_Registro").hide();
+        $("#Pnl_Tabla").show();
+    } 
+    
+    
+    function Carga_Datos(ruta){
+        $.ajax({
+             url:ruta,
+             type:'post',
+             data:"/all_pedidos",
+             datatype:'json'
+         }).done(function(response){
+            $.each(response,function(a,b){
+                tab_pedido.innerHTML +=
+                '<tr  role="row" class="odd" id="'+ response[a].id +'">'+
+                '<td class="pedido">'+ response[a].id +'</td>'+
+                '<td class="fecha">'+ response[a].fecha +'</td>'+
+                '<td class="hora">'+ response[a].hora +'</td>'+
+                '<td class="estado">'+ response[a].estado +'</td>'+
+                '<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>'+
+                '</tr>';
+            });// final each
+        });//final ajax
+    }//final function carga Datos
+});
+</script>
+
+{% endblock %}
