@@ -39,12 +39,16 @@ Route.post('/menu/menu/in','MenuController.insert').middleware('auth');
 Route.post('/all_menu','MenuController.all').middleware('auth');
 Route.post('/edit_menu','MenuController.update').middleware('auth');
 
+
 Route.get('cat_pedido').render('cPedido').middleware('auth');
+Route.get('procesa_pedido').render('procesa_pedidos').middleware('auth');
 Route.post('/nvo_pedido','OrdenesController.insertaOrden').middleware('auth');
+Route.post('/act_edo_pedido','OrdenesController.actualiza_orden').middleware('auth');
 Route.post('/nvo_detalle','DetalleOrdenesController.insertaDetalle').middleware('auth');
-Route.post('/all_pedidos','OrdenesController.all').middleware('auth');
+Route.post('/all_pedidos','OrdenesController.allp').middleware('auth');
 Route.post('/all_pedidos/:numero','OrdenesController.all').middleware('auth');
 Route.post('/edit_pedidos','OrdenesController.update').middleware('auth');
+Route.post('/detalle_orden/:numero','DetalleOrdenesController.detalle').middleware('auth');
 
 
 

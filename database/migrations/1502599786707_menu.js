@@ -2,23 +2,24 @@
 
 const Schema = use('Schema')
 
-class MenuTableSchema extends Schema {
+class MenusTableSchema extends Schema {
 
   up () {
-    this.create('menu', table => {
+    this.create('menus', table => {
         table.increments()
         table.varchar('nombre_producto',60)
         table.varchar('descripcion',130)
         table.float('precio')
         table.varchar('tipo_menu',50)
+        table.varchar('imagen',400)
         table.timestamps()
     })
   }
 
   down () {
-    this.drop('menu');
+    this.drop('menus');
   }
 
 }
 
-module.exports = MenuTableSchema
+module.exports = MenusTableSchema
