@@ -56,7 +56,7 @@ Route.get('/enviar/:correo', 'EmailsController.sendEmail'); //Enviar Correo
 Route.get('/logout','UsersController.logout').middleware('auth')
 
 
-
+Route.post('/loginApp','UsersController.loginApp');
 
 
 

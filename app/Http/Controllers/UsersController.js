@@ -46,6 +46,21 @@ class UsersController {
         }
     }
     
+    * loginApp(request, response) {
+        var data = request.all()
+        const validacion = yield Validator.validate(data, User.validaLogin)
+        if(validacion.fails()){
+            yield response.json({Error:True})
+        }else{
+            const authCheck = yield request.auth.attempt(data.correo, data.password);
+            if(authCheck) {
+                var Tipo =  yield Database.table('users').join('roles_personas','users.id','=','roles_personas.personas_id').join('roles','roles_personas.roles_id','=','roles.id').where('users.email',data.correo)
+                yield response.json({id:Tipo[0].id,nombre:Tipo[0].nombre})
+                }
+            yield response.json({Error:True})
+        }   
+    }
+    
     * insert(request,response){
         const data = request.all()
         console.log(data)
