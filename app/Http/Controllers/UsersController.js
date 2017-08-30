@@ -29,7 +29,31 @@ class UsersController {
         .join('roles','roles_personas.roles_id','=','roles.id')
         .where('users.id',data.id);
         console.log(Tipo);
-        yield response.json({nombre_rol:Tipo[0].nombre_rol})
+        yield response.SendView({nombre_rol:Tipo[0].nombre_rol})
+    }
+    
+    * cambioContraseña(request, response) {
+        var data = request.all()
+        const loginMessage = {
+            success: 'Logged-in Successfully!',
+            error: 'Invalid Credentials'
+        }
+        const validacion = yield Validator.validate(data, User.validarContraseña)
+        if(validacion.fails()){
+            const error = 'No ingresaro correctamente la Contraseña'
+            yield response.sendView('cPassword',{error})
+        }else if(data.nContrasena != data.cContrasena){
+            const error = 'Las Contraseñas no coinciden'
+            yield response.sendView('cPassword',{error})
+        }else{
+            const user = yield User.findBy('id',request.currentUser.id)
+            console.log(data)
+            user.password =  yield Hash.make(data.nContrasena)
+            user.activo = '1'
+            yield user.save()
+            yield response.redirect('/menu');
+            
+        }   
     }
     
     * login(request, response) {
@@ -40,17 +64,18 @@ class UsersController {
         }
         const validacion = yield Validator.validate(data, User.validaLogin)
         if(validacion.fails()){
-            yield response.send('No se ingresaron correctamente los datos')
+            const error = 'No ingreso correctamente los datos'
+            yield response.sendView('login',{error})
         }else{
-            const authCheck = yield request.auth.attempt(data.correo, data.password);
+            try{
+                const authCheck = yield request.auth.attempt(data.correo, data.password);
             if(authCheck) {
-                if( data.password=="abc1234"){
-                    yield response.redirect('/menu');
+                const user = yield User.findBy('email',data.correo)
+                if( user.activo == "0"){
+                    yield response.redirect('/cPassword');
                 }else{
                     var Tipo =  yield Database.table('users').join('roles_personas','users.id','=','roles_personas.personas_id').join('roles','roles_personas.roles_id','=','roles.id').where('users.email',data.correo);
                      yield request.session.put('rol_usuario', Tipo[0].nombre_rol)
-                    console.log("AQUI");
-                    console.log(yield request.session.get('rol_usuario'));
                     if(Tipo[0].nombre_rol == 'Empleado'){
                         return response.send('funciona');
                     }else{
@@ -58,7 +83,11 @@ class UsersController {
                     }
                     //yield response.sendView({error: loginMessage.error });
                 }
-            }   
+            }
+            }catch(e){
+                const error = 'El usuario o Password no coincide'
+                yield response.sendView('login',{error})
+            }
         }
     }
     
@@ -82,30 +111,43 @@ class UsersController {
         //console.log(data)
         const validacion = yield Validator.validate(data, User.insertNvoRegistro)
         if(validacion.fails()){
-            yield response.send('No se ingresaron correctamente los datos')
+            const error = 'No se ingresaron correctamente los datos'
+            yield response.redirect('/registro')
         }else{
-            const user = new User()
-            user.nombre = data.nombre
-            user.a_paterno = data.a_paterno
-            user.a_materno = data.a_materno
-            user.direccion= data.direccion
-            user.telefono= data.telefono
-            user.email= data.email
-            user.password = yield Hash.make("abc1234")
-            yield user.save()
-            
-            const id=user.id;
-            const rol = new RolPersona();
-            rol.personas_id=user.id
-            rol.roles_id=1
-            yield rol.save()
-            //yield response.send(user);
-            yield Mail.send('emails.welcome', user, (message) => {
-              message.to(user.email, user.nombre + " " + user.a_paterno + " " + user.a_materno)
-              message.from('brendalauramartell@gmail.com')
-              message.subject('Welcome to the Kitten\'s World')
-            });
-            yield response.redirect("/menu")
+            try{
+                const user = new User()
+                user.nombre = data.nombre
+                user.a_paterno = data.a_paterno
+                user.a_materno = data.a_materno
+                user.direccion= data.direccion
+                user.telefono= data.telefono
+                user.email= data.email
+                const contrasena = Math.floor((Math.random() * 10000) + 1) + 10000;
+                user.password = yield Hash.make(contrasena.toString())
+                user.activo = '0'
+                yield user.save()
+
+                const id=user.id;
+                const rol = new RolPersona();
+                rol.personas_id=user.id
+                rol.roles_id=1
+                yield rol.save()
+                //yield response.send(user);
+                yield Mail.send('emails.welcome', user, (message) => {
+                  message.to(user.email, user.nombre + " " + user.a_paterno + " " + user.a_materno)
+                  message.from('pp5548080@gmail.com')
+                  message.subject('Welcome to the Kitten\'s World')
+                  message.html('<h2> Heya {{ firstname}} </h2><p>Este es Un correro de confirmacion. La siguiente es una contrasena provicional que debes cambiar para poder tener acceso al sistema.</p><p>Tu contrasena provicional es <b>'+contrasena+'</b><p><a href="http://192.168.1.75:3332/login">Cambiar Contrasena</a></p>')
+                });
+            yield response.redirect("/login")
+            }catch(e){
+                /*var error = '';
+                console.log(e.detail)
+                if(e.detail.includes('email')){
+                    error = 'El correo ya existe. Tiene que escojer otro correo'    
+                }*/
+                yield response.redirect('/registro')
+            }
         }
     }
     * insertCte(request,response){

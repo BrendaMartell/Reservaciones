@@ -15,6 +15,7 @@ class UsersTableSchema extends Schema {
       table.varchar('telefono', 15)
       table.varchar('email', 254).notNullable().unique()
       table.varchar('password', 200)
+      table.varchar('activo', 1).default('0')
       table.timestamps()
     })
   }

@@ -30,8 +30,10 @@ module.exports = {
     secure: false,
     service:'Gmail',
     auth: {
-      user: Env.get('MAIL_USERNAME'),
-      pass: Env.get('MAIL_PASSWORD')
+      //user: Env.get('MAIL_USERNAME'),
+      //pass: Env.get('MAIL_PASSWORD')
+        user: 'pp5548080@gmail.com',
+      pass: 'Prueba12'
     },
     maxConnections: 5,
     maxMessages: 100,

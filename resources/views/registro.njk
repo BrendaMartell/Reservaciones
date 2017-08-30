@@ -23,12 +23,12 @@
                 </div>
                 <div>
                 </div>
-                 {% for error in old('errors') %} 
-                    <div class="alert alert-success alert-dismissible" style="display:none" id="alerta">
+                 {% if error != null %} 
+                    <div class="alert alert-danger alert-dismissible" id="alerta">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h4><i class="icon fa fa-info"></i>{{ error.message }}</h4>
+                        <h4><i class="icon fa fa-info"></i>{{ error }}</h4>
                     </div>
-                {% endfor %}
+                {% endif %}
                 <form id="formulario" role="form" method="POST" action="/registro/insert">
                     {{ csrfField }}
                     <div class="box-body" id="Pnl_Registro" >
@@ -91,7 +91,7 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" id="Btn_Registra" class="btn btn-primary">Guardar</button>
-                        <a type="button" id="Btn_Cancela" href="/log" class="btn btn-primary">Cancelar</a>
+                        <a type="button" id="Btn_Cancela" href="/login" class="btn btn-primary">Cancelar</a>
                     </div>
                 </form>
             </div>

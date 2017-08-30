@@ -53,8 +53,13 @@ class Users extends Lucid {
             password:'required'
         }
     }
+    
+    static get validarContraseña(){
+        return {
+            nContrasena:'required',
+            cContrasena:'required'
+        }
+    }
 }
-
-
 
 module.exports = Users

@@ -9,9 +9,11 @@ Route.on('/').render('login')
 Route.on('/CC1').render('CambiaContrasena1')
 Route.on('/CC2').render('CambiaContrasena2')
 Route.on('/login').render('login')
+Route.on('/cPassword').render('cPassword');
 
 Route.get('/registro','UsersController.viewRegistro');
 Route.post('/registro/insert', 'UsersController.insert');
+Route.post('/cPassword', 'UsersController.cambioContraseña');
 
 Route.get('/login','UsersController.viewLogin');
 Route.post('/login','UsersController.login');
