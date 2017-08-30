@@ -131,6 +131,7 @@
 $(document).ready(function(){
     const io = ws('');
 	const cliente = io.channel('Pedidos').connect(function(error, connected){});
+	const pedido2 = io.channel('Pedidos').connect(function(error, connected){});
     
     var tab=document.getElementById('tbody_menu');
     var tab_orden=document.getElementById('tbody_orden');
@@ -149,6 +150,7 @@ $(document).ready(function(){
              data:"",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 $("#id").val(response[a].id);
                 tab.innerHTML +=
@@ -236,7 +238,7 @@ $(document).ready(function(){
                  data:Orden,
                  datatype:'json'
              }).done(function(response){
-                    //console.log(response.id);
+                console.log(response.id);
                 Detalle_orden.ordenes_id=response.id;
                 $.ajax({
                     url:"/nvo_detalle",
@@ -244,9 +246,9 @@ $(document).ready(function(){
                     data:Detalle_orden,
                     datatype:'json'
                 }).done(function(response){
-                    cliente.emit('pedidosolicitud',{'us':'{{ currentUser.id }}'});
+                    cliente.emit('pedido',{'estado': 'entrada', 'cliente':'{{ currentUser.id }}', 'id': Detalle_orden.ordenes_id});
                     Deshabilita_Registro();
-                    //cliente.emit('pedidosolicitud','Se tienen nuevas solicitudes de pedido');
+                    Carga_Datos("/all_pedidos/" + '{{currentUser.id}}');
                 });//final ajax2
             });//final ajax
         }  //final iff alta
@@ -256,9 +258,14 @@ $(document).ready(function(){
         });
     });
     
-    cliente.on('pedidosolicitud',function(room,mensaje){
-        //alert(mensaje);
-    });
+     pedido2.on('pedido_cte', function(mensaje){
+        console.log(mensaje.cliente + " " + '{{currentUser.id}}');
+        if(parseInt(mensaje.cliente)==parseInt('{{currentUser.id}}')){
+            console.log("Entra en comparacion de usuarios");
+            Carga_Datos("/all_pedidos/" + '{{currentUser.id}}');
+        }
+    });//Finl onPedido
+    
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
@@ -350,14 +357,31 @@ $(document).ready(function(){
              data:"/all_pedidos",
              datatype:'json'
          }).done(function(response){
+            tab_pedido.innerHTML ="";
             $.each(response,function(a,b){
+                 var color="";
+                var boton="";
+                var color_font="#FFFFFF";
+                boton='<td class="Btn_Editar"  id="'+ response[a].id +'"></td>';
+                if(response[a].estado=="SOLICITUD" || response[a].estado=="Solicitud"){
+                    color="#FFBBBB";
+                    boton='<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>';
+                }else if(response[a].estado=="PREPARACION"){
+                    color="#AAFFAA";         
+                }else if(response[a].estado=="COMPLETADO"){
+                    color="#CCFFFF";    
+                    color_font="#000000";
+                }else{
+                    color="#FFFFFF"
+                }
+                
                 tab_pedido.innerHTML +=
-                '<tr  role="row" class="odd" id="'+ response[a].id +'">'+
+                '<tr  role="row" class="odd" id="'+ response[a].id +'" style="background-color:'+ color +'">'+
                 '<td class="pedido">'+ response[a].id +'</td>'+
                 '<td class="fecha">'+ response[a].fecha +'</td>'+
                 '<td class="hora">'+ response[a].hora +'</td>'+
                 '<td class="estado">'+ response[a].estado +'</td>'+
-                '<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>'+
+                boton +
                 '</tr>';
             });// final each
         });//final ajax

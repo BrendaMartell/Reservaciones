@@ -1,0 +1,167 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="/js/chart.js"></script>
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Reporte de Ventas</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" id="Agrupacion">Producto</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" >Unidades Vendidas</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" >Total de Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Producto</th>
+                                    <th rowspan="1" colspan="1">Unidades Vendidas</th>
+                                    <th rowspan="1" colspan="1">Total de Ventas</th>
+                                </tfoot>
+                              </table>
+                        </div>
+                        <div class="col-lg-7">
+                            <canvas id="chart"></canvas>
+                            <canvas id="chart2"></canvas>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    var tab_pedido=document.getElementById('tbody');
+    $("#EnPantalla").text("Reporte de Ventas")
+    var Movimiento ="";
+    Carga_Datos("/datos_r0001");
+    
+    
+    function Fecha(){
+        var Mes = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+        var Hoy = new Date();
+        var Anio = Hoy.getFullYear();
+        var FechaHoy=Anio + "/" + Mes[Hoy.getMonth()] + "/" + Hoy.getDate();
+        return FechaHoy;
+    }
+    
+    function Carga_Datos(ruta){
+        var ctx = document.getElementById('chart').getContext('2d');
+        var ctx2 = document.getElementById('chart2').getContext('2d');
+        var label=[];
+        var dat=[];
+        var dat2=[];
+        var sum_total = 0;
+        var sum_cantidad = 0;
+        $.ajax({
+             url:ruta,
+             type:'post',
+             data:"",
+             datatype:'json'
+         }).done(function(response){
+            $.each(response,function(index,value){
+                label.push(value.nombre_producto);
+                dat.push(parseInt(value.total_platillo));
+                dat2.push(parseInt(value.total_cantidad));
+                tab_pedido.innerHTML +='<tr  role="row" class="odd">'+
+                '<td class="nombre_producto">'+ value.nombre_producto +'</td>'+
+                '<td class="total_cantidad" style="text-align:right">'+ value.total_cantidad +'</td>'+
+                '<td class="total_platillo" style="text-align:right">'+ value.total_platillo +'</td>'+
+                '</tr>';
+                sum_total += value.total_platillo;
+                sum_cantidad += parseFloat(value.total_cantidad);
+            });
+            console.log(sum_total);
+            console.log(sum_cantidad);
+            for(var i = 0; i < dat.length;i++){
+                dat[i]=dat[i]*100/sum_total;
+                dat2[i]=dat2[i]*100/sum_cantidad;
+            }
+            var chart = new Chart(ctx)
+            chart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                  labels: label,
+                  datasets: [{
+                    data: dat,
+                    label: 'Porcentaje que representa cada producto en Ventas',
+                   backgroundColor: 'rgba(4, 10, 72, 0.82)',
+                    borderColor: 'rgba(48, 3, 237, 0.96)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  animation: {
+                    duration: 0
+                  },
+                  hover: {
+                        animationDuration: 0
+                    },
+                  scales: {
+                    yAxes: [{
+                      barPercentage: .9,
+                      //barThickness: 20
+                    }],
+                    xAxes: [{
+                      ticks: {
+                        min: 0,
+                        max:100
+                      }
+                    }]
+                  }
+                }
+              }); //final chart
+            var chart2 = new Chart(ctx2)
+            chart2 = new Chart(ctx2, {
+                type: 'horizontalBar',
+                data: {
+                  labels: label,
+                  datasets: [{
+                    data: dat2,
+                    label: 'Porcentaje que representa cada producto en Unidades Vendidas',
+                   backgroundColor: 'rgba(4, 10, 72, 0.82)',
+                    borderColor: 'rgba(48, 3, 237, 0.96)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  animation: {
+                    duration: 0
+                  },
+                  hover: {
+                        animationDuration: 0
+                    },
+                  scales: {
+                    yAxes: [{
+                      barPercentage: .9,
+                      //barThickness: 20
+                    }],
+                    xAxes: [{
+                      ticks: {
+                        min: 0,
+                        max:100
+                      }
+                    }]
+                  }
+                }
+              }); //final chart
+            
+        });//final ajax
+    }//final function carga Datos
+});
+</script>
+
+
+{% endblock %}

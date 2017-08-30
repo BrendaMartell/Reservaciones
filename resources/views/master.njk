@@ -95,9 +95,9 @@
               </span>
         </div>
       </form>
-      <ul class="sidebar-menu tree" data-widget="tree">
+      <ul class="sidebar-menu tree" data-widget="tree" id="contenedor_menu">
         <li class="header">Menu de Navegacion</li>
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Catalogos</span>
             <span class="pull-right-container">
@@ -110,7 +110,7 @@
             <li><a href="/cat_roles"><i class="fa fa-circle-o"></i>Roles</a></li>
             <li><a href="/cat_menu"><i class="fa fa-circle-o"></i>Menu</a></li>
           </ul>
-        </li>
+        </li> 
         <li class="active">
           <a href="/procesa_pedido">
             <i class="fa fa-th"></i><span>Procesar Pedido</span>
@@ -120,8 +120,24 @@
           </a>
         </li>
         <li class="active">
+          <a href="/completa_pedido">
+            <i class="fa fa-th"></i><span>Pedidos a Preparacion</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
+        </li>
+        <li class="active">
           <a href="/cat_Pedido">
             <i class="fa fa-th"></i><span>Realizar Pedido</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
+        </li> 
+        <li class="active">
+          <a href="/liquida_pedido">
+            <i class="fa fa-th"></i><span>Liquidacion de Pedidos</span>
             <span class="pull-right-container">
               <i class="pull-right"></i>
             </span>
@@ -136,19 +152,35 @@
           </a>
         </li>
         <li class="active">
-          <a href="/nvo_pedido">
+          <a href="/reservaciones">
+            <i class="fa fa-th"></i><span>Reservaciones</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="/cat_reservacion">
             <i class="fa fa-th"></i><span>Hacer Reservacion</span>
             <span class="pull-right-container">
               <i class="pull-right"></i>
             </span>
           </a>
         </li>
+        <li class="active">
+          <a href="/conf_reservacion">
+            <i class="fa fa-th"></i><span>Confirma Reservaciones</span>
+            <span class="pull-right-container">
+              <i class="pull-right"></i>
+            </span>
+          </a>
+        </li>-->
       </ul>
     </section>
   </aside>
 
   <div class="content-wrapper" style="min-height: 916px;">
-      <div id="alerta_general" style="display:none; padding: 20px 30px; background: rgb(255, 255, 0); z-index: 999999; font-size: 16px; font-weight: 600;"><a class="pull-right" data-toggle="tooltip" data-placement="left" title="" style="color: rgb(0, 0, 0); font-size: 20px;" data-original-title="Never show me this again!" id="cerrar">×</a>Tienes Nuevas Solicitudes de Pedido</div>
+      <div id="alerta_general" style="display:none; padding: 20px 30px; background: rgb(255, 255, 0); z-index: 999999; font-size: 16px; font-weight: 600;"><a class="pull-right" data-toggle="tooltip" data-placement="left" title="" style="color: rgb(0, 0, 0); font-size: 20px;" data-original-title="Never show me this again!" id="cerrar">×</a><label id="texto">Tienes Nuevas Solicitudes de Pedido</label></div>
     <section class="content-header">
       <h1 id="EnPantalla">
         
@@ -156,6 +188,10 @@
       </h1>
     </section>
     <section class="content">
+        <input type="hidden" id="numero_usuario">
+        <input type="hidden" id="correo_usuario">
+        <input type="hidden" id="rol_usuario">
+        <input type="hidden" id="numero_rol">
         {% block content %}{% endblock %}
     </section>
   </div>
@@ -208,24 +244,198 @@
 <script type="text/javascript">
 $(document).ready(function(){
     const io = ws('');
-	const cliente = io.channel('Pedidos').connect(function(error, connected){});
+    var ContMenu=document.getElementById('contenedor_menu');
+	const pedido = io.channel('Pedidos').connect(function(error, connected){});
+	const pedido2 = io.channel('Pedidos').connect(function(error, connected){});
+	const reservacion = io.channel('Reservaciones').connect(function(error, connected){});
+	const reservacion2 = io.channel('Reservaciones').connect(function(error, connected){});
+    const cteus = io.channel('Us').connect(function(error, connected){});
+    var alerta = document.getElementById('alerta_general');
+    $("#numero_usuario").val('{{currentUser.id}}');
+    $("#correo_usuario").val('{{currentUser.email}}');
+    Carga_Datos_Usuario();
+    function Cargar_PuntosMenu(){
+        ContMenu.innerHTML="";
+        if($("#rol_usuario").val()=="Administrador"){
+            //Catalogos
+            ContMenu.innerHTML='<li class="treeview">' +
+            '<a href="#">' +
+            '<i class="fa fa-table"></i> <span>Catalogos</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="fa fa-angle-left pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '<ul class="treeview-menu">' +
+            '<li class="active"><a href="/cat_ctes"><i class="fa fa-circle-o"></i>Clientes</a></li>' +
+            '<li><a href="/cat_emp"><i class="fa fa-circle-o"></i>Empleados</a></li>' +
+            '<li><a href="/cat_roles"><i class="fa fa-circle-o"></i>Roles</a></li>' +
+            '<li><a href="/cat_menu"><i class="fa fa-circle-o"></i>Menu</a></li>' +
+            '</ul>' +
+            '</li>' +
+            //Procesa Pedido
+            '<li class="active">' +
+            '<a href="/procesa_pedido">' +
+            '<i class="fa fa-th"></i><span>Procesar Pedido</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>' +
+            //Confirma Reservaciones
+            '<li class="active">' +
+            '<a href="/conf_reservacion">' +
+            '<i class="fa fa-th"></i><span>Confirma Reservaciones</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>' +
+            //Reportes
+            '<li class="treeview">' +
+            '<a href="#">' +
+            '<i class="fa fa-table"></i> <span>Reportes</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="fa fa-angle-left pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '<ul class="treeview-menu">' +
+            '<li class="active"><a href="/r_0001"><i class="fa fa-circle-o"></i>Ventas</a></li>' +
+            '<li><a href="/r_0002"><i class="fa fa-circle-o"></i>Pedidos</a></li>' +
+            '<li><a href="/r_0003"><i class="fa fa-circle-o"></i>Reservaciones</a></li>' +
+            '<li><a href="/r_0004"><i class="fa fa-circle-o"></i>Asistencias</a></li>' +
+            '</ul>' +
+            '</li>';
+        }else if($("#rol_usuario").val()=="Recepcionista"){
+            //Procesa Pedido
+            ContMenu.innerHTML='<li class="active">' +
+            '<a href="/procesa_pedido">' +
+            '<i class="fa fa-th"></i><span>Procesar Pedido</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>' +
+            //Confirma Reservaciones
+            '<li class="active">' +
+            '<a href="/conf_reservacion">' +
+            '<i class="fa fa-th"></i><span>Confirma Reservaciones</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>';
+        }else if($("#rol_usuario").val()=="Cajero"){
+            //Liquidar Pedido
+            ContMenu.innerHTML= '<li class="active">' +
+            '<a href="/liquida_pedido">' +
+            '<i class="fa fa-th"></i><span>Liquidacion de Pedidos</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>';
+        }else if($("#rol_usuario").val()=="Chef"){
+            //Pedidos a Preparacion
+            ContMenu.innerHTML='<li class="active">' +
+            '<a href="/completa_pedido">' +
+            '<i class="fa fa-th"></i><span>Ordenes a Preparar</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>';
+        }else{
+             //Pedidos
+            ContMenu.innerHTML='<li class="active">' +
+            '<a href="/cat_Pedido">' +
+            '<i class="fa fa-th"></i><span>Pedidos</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>' +
+            //Reservaciones
+            '<li class="active">' +
+            '<a href="/cat_reservacion">' +
+            '<i class="fa fa-th"></i><span>Reservaciones</span>' +
+            '<span class="pull-right-container">' +
+            '<i class="pull-right"></i>' +
+            '</span>' +
+            '</a>' +
+            '</li>';
+        }
+        
+    }
+    
+    
+    function Carga_Datos_Usuario(){
+        $.ajax({
+             url:"/datos_us",
+             type:'post',
+             data:{id:'{{currentUser.id}}'},
+             datatype:'json'
+         }).done(function(response){
+            $("#rol_usuario").val(response.nombre_rol);
+            Cargar_PuntosMenu();
+            if(response.nombre_rol=="Administrador"){
+                 pedido.joinRoom('PedidoAdministrador', {}, function (error, joined) {
+                    console.log('Enviar Pedido a Administrador  ' + joined)
+                });
+                 reservacion.joinRoom('ReservacionAdministrador', {}, function (error, joined) {
+                    console.log('Enviar Reservacion a Administrador  ' + joined)
+                });
+            }
+        });//final ajax
+    }//final function carga Datos
     
     $("#cerrar").click(function(e){
         e.preventDefault();
         document.getElementById('alerta_general').style.display = 'none';  
     })
     
-    cliente.on('pedidosolicitud',function(room,mensaje){
+    reservacion2.on('reservacion_cte', function(mensaje){
+        console.log(mensaje.cliente + " " + $("#numero_usuario").val());
+        if(mensaje.cliente=='{{currentUser.id}}'){
+            console.log("Entra en comparacion de usuarios");
+            alerta.style.display = 'block';
+            $("#texto").text(mensaje.mensaje);
+            //$("#texto").text("El estado de tu pedido " + mensaje.id + " a cambiado");
+            document.body.scrollTop = 0;
+        }
+    });//Finl onPedido
+    
+     reservacion.on('reservacionsolicitud',function(room,mensaje){
         console.log(mensaje);
         //$("#alerta_general")
-        if (mensaje.us!='{{currentUser.id}}'){
-            document.getElementById('alerta_general').style.display = 'block';
+        if (mensaje.cliente!='{{currentUser.id}}'){
+            alerta.style.display = 'block';
+            $("#texto").text(mensaje.mensaje);
+            document.body.scrollTop = 0;
         }  
     });
     
-    cliente.joinRoom('PedidoAdministrador', {}, function (error, joined) {
-        console.log('Enviar Pedido a Administrador  ' + joined)
+     pedido2.on('pedido_cte', function(mensaje){
+        console.log(mensaje.cliente + " " + $("#numero_usuario").val());
+        if(mensaje.cliente=='{{currentUser.id}}'){
+            console.log("Entra en comparacion de usuarios");
+            alerta.style.display = 'block';
+            $("#texto").text(mensaje.actualizacion);
+            //$("#texto").text("El estado de tu pedido " + mensaje.id + " a cambiado");
+            document.body.scrollTop = 0;
+        }
+    });//Finl onPedido
+    
+   pedido.on('pedidosolicitud',function(room,mensaje){
+        console.log(mensaje);
+        //$("#alerta_general")
+        if (mensaje.cliente!='{{currentUser.id}}'){
+            alerta.style.display = 'block';
+            $("#texto").text("Hay nuevos pedidos para procesar");
+            document.body.scrollTop = 0;
+        }  
     });
+    
+   
     
 });
 </script>

@@ -1,0 +1,315 @@
+{% extends 'master' %}
+
+{% block content %}
+<script src="Tema/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="js/ws.js"></script>
+<!-- <script src="js/js_Pedido.js"></script> -->
+
+        <div class="box" id="Pnl_Tabla">
+            <div class="box-header">
+              <h3 class="box-title">Reservacion</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="example1_length">
+                                <button type="submit" class="btn btn-primary" id="Btn_Registra">Registrar</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="example1_filter" class="dataTables_filter">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80;">No. Reservacion</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 80px;">Fecha</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 150;">Hora</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 250px;">Estado</th>
+                                        <th tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 250px;">Cantidad Personas</th>
+                                        <th tabindex="0" rowspan="1" colspan="1" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">No. Reservacion</th>
+                                    <th rowspan="1" colspan="1">Fecha</th>
+                                    <th rowspan="1" colspan="1">Hora</th>
+                                    <th rowspan="1" colspan="1">Estado</th>
+                                    <th rowspan="1" colspan="1">Cantidad Personas</th>
+                                    <th rowspan="1" colspan="1"></th>
+                                </tfoot>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-primary"  id="Pnl_Registro" >
+            <div class="box-header with-border">
+              <h3 class="box-title" id="titulo_formulario">Reservaciones</h3>
+            </div>
+            <form id="formulario">
+            {{ csrfField }}
+              <div class="box-body">
+                  <div class="row">
+                      <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="fecha">Fecha a Reservar</label>
+                                <input style="text-transform: uppercase;" type="hidden" class="form-control" id="personas_id" name="personas_id">
+                                <input style="text-transform: uppercase;" type="hidden" class="form-control" id="id" name="id">
+                                <input style="text-transform: uppercase;" type="text" class="form-control" id="fecha" name="fecha" placeholder="AAAA/MM/DD">
+                            </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="hora">Hora a Reservar</label>
+                                <input style="text-transform: uppercase;" type="text" class="form-control" id="hora" name="hora" placeholder="Ingrese Hora de Res.">
+                            </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="cantidad">Num. Personas</label>
+                                <input style="text-transform: uppercase;" type="text" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad">
+                            </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label id="desc_estado"></label><label id="estado"></label>
+                            </div>
+                      </div>
+                      
+                  </div>
+              </div>
+              <div class="box-footer">
+                <button type="button" class="btn btn-primary" id="Btn_Guardar">Guardar</button>
+                <button type="button" id="Btn_Regresa" class="btn btn-primary">Regresar</button>
+              </div>
+            </form>
+          </div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    const io = ws('');
+	const ws_reservacion = io.channel('Reservaciones').connect(function(error, connected){});
+	const ws_reservacion2 = io.channel('Reservaciones').connect(function(error, connected){});
+    
+    var tab_pedido=document.getElementById('tbody');
+    var Pnl_Registro=document.getElementById('Pnl_Registro');
+    var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+    $("#EnPantalla").text("Nueva Reservacion")
+    var Movimiento ="";
+    Carga_Datos("/all_reservaciones/" + '{{currentUser.id}}');
+    Deshabilita_Registro();
+    
+    $("#Btn_Registra").click(function(){
+        $("#titulo_formulario").text("Registro Nueva Reservacion");
+        Habilita_Registro();
+        Movimiento="Alta";
+    });//final btin registra click
+    
+    $("#Btn_Regresa").click(function(){
+        Deshabilita_Registro();
+        $("#Btn_Guardar").text("Guardar");
+    });//final btin registra click
+    
+    function Hora(){
+        var Digital=new Date();
+        var hours=Digital.getHours();
+        var minutes=Digital.getMinutes();
+        var seconds=Digital.getSeconds();
+        var dn="AM";
+        if (hours>12){
+        dn="PM";
+        hours=hours-12;
+        }
+        if (hours==0)
+        hours=12;
+        if (minutes<=9)
+        minutes="0"+minutes;
+        if (seconds<=9)
+        seconds="0"+seconds;
+        return hours + ":" + minutes;
+    }
+    
+    function Fecha(){
+        var Mes = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+        var Hoy = new Date();
+        var Anio = Hoy.getFullYear();
+        var FechaHoy=Anio + "/" + Mes[Hoy.getMonth()] + "/" + Hoy.getDate();
+        return FechaHoy;
+    }
+    
+    $("#Btn_Guardar").click(function(e){
+        e.preventDefault();
+        ws_reservacion.joinRoom('ReservacionAdministrador', {}, function (error, joined) {
+            console.log('Enviar Reservacion a Administrador  ' + joined)
+        });
+        
+        if (Movimiento=="Alta"){
+            var Res = {
+                'fecha': $("#fecha").val(),
+                'hora': $("#hora").val(),
+                'estado':"",
+                'cliente': '{{currentUser.id}}',
+                'hora_registro':Hora(),
+                'fecha_registro':Fecha(),
+                'cantidad':parseInt($("#cantidad").val())
+            };
+            Res.estado="PENDIENTE"
+            console.log(Res);
+             $.ajax({
+                 url:"/nva_reservacion",
+                 type:'post',
+                 data:Res,
+                 datatype:'json'
+             }).done(function(response){
+                console.log(response.id);
+                var id_reservacion=response.id;
+                ws_reservacion.emit('reservacion',{'estado': 'entrada', 'cliente':'{{ currentUser.id }}', 'id': response.id, mensaje: "Hay nuevas reservaciones para confirmar" });
+                Deshabilita_Registro();
+                Carga_Datos("/all_reservaciones/" + '{{currentUser.id}}');
+            });//final ajax
+        } else{
+            var num_reservacion =parseInt($("#id").val());
+            var Res = {
+                'id': num_reservacion,
+                'fecha': $("#fecha").val(),
+                'hora': $("#hora").val(),
+                'estado':"",
+                'cliente': '{{currentUser.id}}',
+                'hora_registro':Hora(),
+                'fecha_registro':Fecha(),
+                'cantidad':parseInt($("#cantidad").val()),
+                'rol_persona_id':1
+            };
+            Res.estado="CANCELADA";
+            console.log(Res);
+            $.ajax({
+                 url:"/edit_reservacion",
+                 type:'post',
+                 data:Res,
+                 datatype:'json'
+             }).done(function(response){
+                console.log(response.id);
+                ws_reservacion.emit('reservacion',{'estado': 'entrada', 'cliente':'{{ currentUser.id }}', 'id': num_reservacion, 'mensaje':"La reservacion de numero " + response.id + " ah sido cancelada" });
+                Deshabilita_Registro();
+                Carga_Datos("/all_reservaciones/" + '{{currentUser.id}}');
+                Limpia_Campos();
+            });//final ajax
+        }
+        
+        ws_reservacion.leaveRoom("ReservacionAdministrador", {}, function (error, left) {
+            console.log('Salida de ReservacionAdministrador');
+        });
+        
+    });
+    
+     ws_reservacion2.on('reservacion_cte', function(mensaje){
+        console.log(mensaje.cliente + " " + '{{currentUser.id}}');
+        if(parseInt(mensaje.cliente)==parseInt('{{currentUser.id}}')){
+            console.log("Entra en comparacion de usuarios");
+            Carga_Datos("/all_reservaciones/" + '{{currentUser.id}}');
+        }
+    });//Finl onPedido
+
+    function Limpia_Campos(){
+        $("#id").val("");
+        $("#fecha").val("");
+        $("#hora").val("");
+        $("#estado").text("");
+        $("#cantidad").val("");
+        $("#desc_estado").text("Estado:  ");
+    }
+    
+    $('#tbody').on('click', '.Btn_Editar', function(e) {
+        e.preventDefault();
+        Limpia_Campos();
+        $("#titulo_formulario").text("Edicion de Reservacion");
+        $('#formulario').attr('action','/edit_reservacion');
+        //Movimiento="Editar"
+        var id=$(this).attr("id");
+        var valores="";
+        var reservacion = [];
+        reservacion.push(id);
+        $(this).parents("tr").find("td").each(function(){
+            reservacion.push($(this).html());
+            valores+=$(this).html()+"\n";
+        });
+        console.log(reservacion);
+        Habilita_Registro();
+        $("#id").val(reservacion[0]);
+        $("#fecha").val(reservacion[2]);
+        $("#hora").val(reservacion[3]);
+        $("#estado").text(reservacion[4]);
+        $("#cantidad").val(reservacion[5]);
+        $("#desc_estado").text("Estado:  ");
+        $("#Btn_Guardar").text("Cancelar");
+    });
+    
+    function Habilita_Registro(){
+        $("#Pnl_Registro").show();
+        $("#Pnl_Tabla").hide();
+    }
+    
+    function Deshabilita_Registro(){
+        $("#Pnl_Registro").hide();
+        $("#Pnl_Tabla").show();
+    } 
+    
+    
+    function Carga_Datos(ruta){
+        $.ajax({
+             url:ruta,
+             type:'post',
+             data:"",
+             datatype:'json'
+         }).done(function(response){
+            tab_pedido.innerHTML ="";
+            $.each(response,function(a,b){
+                 var color="";
+                var boton="";
+                var color_font="#FFFFFF";
+                boton='<td class="Btn_Editar"  id="'+ response[a].id +'"></td>';
+                if(response[a].estado=="PENDIENTE"){
+                    color="#E0F8F7";
+                    boton='<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>';
+                }else if(response[a].estado=="CANCELADA"){
+                    color="#FFBBBB";         
+                }else if(response[a].estado=="APROBADA"){
+                    color="#AAFFAA"
+                }else if(response[a].estado=="DENEGADA"){
+                    color="gray"
+                }else{
+                    color="#FFFFFF"
+                }
+                
+                tab_pedido.innerHTML +=
+                '<tr  role="row" class="odd" id="'+ response[a].id +'" style="background-color:'+ color +'">'+
+                '<td class="pedido">'+ response[a].id +'</td>'+
+                '<td class="fecha">'+ response[a].fecha +'</td>'+
+                '<td class="hora">'+ response[a].hora +'</td>'+
+                '<td class="estado">'+ response[a].estado +'</td>'+
+                '<td class="estado">'+ response[a].cantidad_personas +'</td>'+
+                boton +
+                '</tr>';
+            });// final each
+        });//final ajax
+    }//final function carga Datos
+});
+</script>
+
+
+{% endblock %}

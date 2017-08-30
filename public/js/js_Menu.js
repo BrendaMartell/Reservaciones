@@ -17,6 +17,7 @@ $(document).ready(function(){
         $("#nombre_producto").focus();
         Movimiento="Alta";
         $('#formulario').attr('action','/menu/menu/in');
+        LimpiaCampos();
     });//final btin registra click
     
     $("#Btn_Cancela").click(function(){
@@ -25,6 +26,7 @@ $(document).ready(function(){
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
+        LimpiaCampos();
         $("#titulo_formulario").text("Edicion de Registro");
         $('#formulario').attr('action','/edit_menu');
         Movimiento="Editar"
@@ -47,6 +49,14 @@ $(document).ready(function(){
         seleccionar(opmenu[6],"tipo_menu");
         $("#nombre_producto").focus();
     });
+    
+    function LimpiaCampos(){
+        $("#id_persona").val("");
+        $("#nombre-imagen").val("");
+        $("#nombre_producto").val("");
+        $("#descripcion").val("");
+        $("#precio").val("");
+    }
     
     function Habilita_Registro(){
         $("#Pnl_Registro").show();
@@ -77,6 +87,7 @@ $(document).ready(function(){
              data:"",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 $("#id").val(response[a].id);
                 tab.innerHTML +=

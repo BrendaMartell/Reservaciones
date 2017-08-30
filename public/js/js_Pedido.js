@@ -18,6 +18,7 @@ $(document).ready(function(){
              data:"",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 $("#id").val(response[a].id);
                 tab.innerHTML +=

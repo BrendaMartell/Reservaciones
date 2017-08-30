@@ -63,10 +63,21 @@ class MenuController {
         }
     }
     
+    * descarga(request, response){
+        const data=request.params();
+        response.download(Helpers.publicPath("imagenes/"+data.Nombre));
+    }
+    
+    * all_app(request,response){
+        const menu=yield Menu.all();
+        console.log(menu)
+        yield response.json({menus:menu})
+    }
+    
     * all(request,response){
         const menu=yield Menu.all();
         console.log(menu)
-        yield response.json(menu)
+        yield response.json(menu);
     }
 }
 

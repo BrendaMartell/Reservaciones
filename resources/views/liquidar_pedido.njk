@@ -71,7 +71,7 @@
                                 <form class="form-horizontal" role="form">
                                     <h3>Datos del Pedido</h3>
                                     <div class="form-group">
-                                        <label>Cliente: </label><label id="personas_id"></label> <label id="cliente"></label>
+                                        <label>Cliente </label><label id="personas_id"></label> <label id="cliente"></label>
                                     </div>
                                     <div class="form-group">
                                         <label id="id_pedido"></label>
@@ -132,7 +132,7 @@
                   </div>
               </div>
               <div class="box-footer">
-                <button type="button" class="btn btn-primary" id="Btn_Guardar">Procesar</button>
+                <button type="button" class="btn btn-primary" id="Btn_Guardar">Liquidar</button>
                 <button type="button" id="Btn_Cancela" class="btn btn-primary">Regresar</button>
               </div>
             </form>
@@ -141,7 +141,6 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    const rol_usuario="";
     const io = ws('');
 	const cliente = io.channel('Pedidos').connect(function(error, connected){});
     
@@ -149,12 +148,14 @@ $(document).ready(function(){
     var tab_pedido=document.getElementById('tbody');
     var Pnl_Registro=document.getElementById('Pnl_Registro');
     var Pnl_Tabla=document.getElementById('Pnl_Tabla');
+    var rol=document.getElementById('rol_usuario');
+   // alert(rol.value);
+//    alert($("#rol_usuario").val());
     var numero_pedido=0;
-    $("#EnPantalla").text("Pedidos")
+    $("#EnPantalla").text("Liquidacion de Pedidos")
     var Movimiento ="";
-    Carga_Datos("/all_pedidos");
+    Carga_Datos("/all_pedidos_estado/COMPLETADO");
     Deshabilita_Registro();
-    
     $("#Btn_Cancela").click(function(){
         Deshabilita_Registro();
     });//final btin registra click
@@ -192,8 +193,8 @@ $(document).ready(function(){
         var Orden ={
             'hora':Hora(),
             'fecha':Fecha(),
-            'estado':"PREPARACION",
-            'personas_id': cte,
+            'estado':"ENTREGADO",
+            'personas_id': $("#personas_id").text(),
             'rol_personas_id': '{{ currentUser.id }}',
             'id':numero_pedido
         };
@@ -206,15 +207,14 @@ $(document).ready(function(){
              }).done(function(response){
                     console.log(response.id);
                     Deshabilita_Registro();
-                    Carga_Datos("/all_pedidos");
-                    cliente.emit('pedido',{'estado': 'salida', 'cliente':cte, 'id': numero_pedido, 'actualizacion': "Su pedido con numero "+ numero_pedido + " ah entrado a preparacion"});
-                 
+                    Carga_Datos("/all_pedidos_estado/COMPLETADO");
+                    cliente.emit('pedido',{'estado': 'salida', 'cliente':cte, 'id': numero_pedido, 'actualizacion':"Su pedido con numero "+ numero_pedido + " a sido liquidado y entregado"});
             });//final ajax
     });
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
-        $("#titulo_formulario").text("Edicion de Pedido");
+        $("#titulo_formulario").text("Liquidacion de Pedidos");
         $('#formulario').attr('action','/edit_pedido');
         Movimiento="Editar"
         var id=$(this).attr("id");
@@ -230,10 +230,10 @@ $(document).ready(function(){
         $("#cliente").text(pedido[2]);
         $("#personas_id").text(pedido[1]);
         $("#id_pedido").text("No. Pedido: " + pedido[0].toString());
-        $("#fecha").text("Fecha: " + pedido[3]);
-        $("#hora").text("Hora: " + pedido[2]);
+        $("#fecha").text("Fecha: " + pedido[4]);
+        $("#hora").text("Hora: " + pedido[5]);
         //seleccionar(pedido[4],"estado");
-        $("#estado").text("Estado del Pedido: " + pedido[4]);
+        $("#estado").text("Estado del Pedido: " + pedido[6]);
         numero_pedido=pedido[0];
         LlenarOrden();
     });
@@ -285,52 +285,25 @@ $(document).ready(function(){
         $.ajax({
              url:ruta,
              type:'post',
-             data:"/all_pedidos",
+             data:"",
              datatype:'json'
          }).done(function(response){
                 tab_pedido.innerHTML="";
             $.each(response,function(a,b){
-                var color="";
-                var boton="";
-                var color_font="#FFFFFF";
-                boton='<td class="Btn_Editar"  id="'+ response[a].id +'"></td>';
-                if(response[a].estado=="SOLICITUD" || response[a].estado=="Solicitud"){
-                    color="#FFBBBB";
-                    boton='<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>';
-                }else if(response[a].estado=="PREPARACION"){
-                    color="#AAFFAA";         
-                }else if(response[a].estado=="COMPLETADO"){
-                    color="#CCFFFF";    
-                    color_font="#000000";
-                }else{
-                    color="#FFFFFF"
-                }
                 tab_pedido.innerHTML +=
-                '<tr  role="row" class="odd" id="'+ response[a].id +'" style="background-color:'+ color +'">'+
+                '<tr  role="row" class="odd" id="'+ response[a].id +'">'+
                 '<td class="pedido">'+ response[a].personas_id +'</td>'+
                 '<td class="pedido">'+ response[a].nombre+ " " + response[a].a_paterno + " " + response[a].a_materno +'</td>'+
                 '<td class="pedido">'+ response[a].id +'</td>'+
                 '<td class="fecha">'+ response[a].fecha +'</td>'+
                 '<td class="hora">'+ response[a].hora +'</td>'+
                 '<td class="estado">'+ response[a].estado +'</td>'+
-                 boton +
+                '<td class="Btn_Editar"  id="'+ response[a].id +'"><button class="btn btn-primary" type="button"><i class="fa fa-edit"></i></button></td>'+
                 '</tr>';
             });// final each
         });//final ajax
     }//final function carga Datos
 });
-    
-    function Carga_Datos_Usuario(){
-        $.ajax({
-             url:"/datos_us",
-             type:'post',
-             data:{id:'{{currentUser.id}}'},
-             datatype:'json'
-         }).done(function(response){
-            rol_usuario = response.nombre_rol;
-        });//final ajax
-    }//final function carga Datos
-    Carga_Datos_Usuario();
 </script>
 
 {% endblock %}

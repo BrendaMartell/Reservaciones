@@ -17,6 +17,7 @@ $(document).ready(function(){
         $("#pwd").show();
         Movimiento="Alta";
         $('#formulario').attr('action','/menu/cte/in');
+        LimpiaCampos();
     });//final btin registra click
     
     $("#Btn_Cancela").click(function(){
@@ -37,6 +38,7 @@ $(document).ready(function(){
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
+        LimpiaCampos();
         $("#titulo_formulario").text("Edicion de Registro");
         $('#formulario').attr('action','/edit_emp');
         Movimiento="Editar"
@@ -61,6 +63,17 @@ $(document).ready(function(){
         seleccionar(empleado[4],"roles_id");
         $(".pwd").hide()
     });
+    
+    function LimpiaCampos(){
+        $("#id_persona").val("");
+        $("#nombre").val("");
+        $("#a_paterno").val("");
+        $("#a_materno").val("");
+        $("#direccion").val("");
+        $("#telefono").val("");
+        $("#email").val("");
+        $("#password").val("");
+    }
     
     function Roles(){
         $.ajax({
@@ -92,6 +105,7 @@ $(document).ready(function(){
              data:"/all_emp",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 console.log(response)
                 tab.innerHTML +=

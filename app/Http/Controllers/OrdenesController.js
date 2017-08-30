@@ -8,25 +8,35 @@ const Database = use('Database')
 class OrdenController {
     * all(request,response){
         const numero=request.params();
-        console.log(numero.numero);
+        //console.log(numero.numero);
         const orden = yield Database.from('ordenes')
         .where('personas_id', numero.numero)
         .orderBy('id','asc');
-        console.log(orden);
+       // console.log(orden);
         yield response.json(orden);
     }
     
-     * allp(request,response){
+    * allp(request,response){
         const ordenes = yield Database.select('ordenes.id', 'users.nombre','users.a_paterno','users.a_materno','ordenes.fecha','ordenes.hora','ordenes.estado','ordenes.personas_id')
         .from('ordenes')
         .innerJoin('users','users.id','ordenes.personas_id');
-        console.log(ordenes);
+       // console.log(ordenes);
+        yield response.json(ordenes)
+    }
+    
+    * all_pedidos_estado(request,response){
+        const estado=request.params();
+        const ordenes = yield Database.select('ordenes.id', 'users.nombre','users.a_paterno','users.a_materno','ordenes.fecha','ordenes.hora','ordenes.estado','ordenes.personas_id')
+        .from('ordenes')
+        .innerJoin('users','users.id','ordenes.personas_id')
+        .where('ordenes.estado',estado.estado);
+       // console.log(ordenes);
         yield response.json(ordenes)
     }
     
     * actualiza_orden(request,response){
         const data = request.all();
-        console.log(data);
+      //  console.log(data);
         
         const orden=yield Orden.findBy('id', data.id);
         orden.estado=data.estado;
@@ -46,7 +56,7 @@ class OrdenController {
     
     * insertaOrden(request, response){
         const data = request.all();
-        console.log(data);
+      //  console.log(data);
         
         const orden=new Orden();
         orden.personas_id=data.personas_id;
@@ -65,6 +75,17 @@ class OrdenController {
         log.rol_persona=3;
         yield log.save();
         response.json(orden);
+    }
+    
+    * reporte(request, response){
+        const ordenes = yield Orden.query()
+        .select('estado')
+        .count('estado')
+        .groupBy('estado')
+        .orderBy('estado','desc')
+        .fetch();
+        console.log(ordenes);
+        return  response.json(ordenes);  
     }
 }
 

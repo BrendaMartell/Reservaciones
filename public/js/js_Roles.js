@@ -7,14 +7,12 @@ $(document).ready(function(){
     Carga_Datos("/all_roles");
     Deshabilita_Registro();
     
-    
-    
     $("#Btn_Registra").click(function(){
         $("#titulo_formulario").text("Registro de Nuevo Pedido");
         Habilita_Registro();
         Movimiento="Alta";
         LLena_Menu();
-        
+        LimpiaCampos();
         $('#formulario').attr('action','/menu/roles/in');
     });//final btin registra click
     
@@ -26,6 +24,7 @@ $(document).ready(function(){
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
+        LimpiaCampos();
         $("#titulo_formulario").text("Edicion de Registro");
         $('#formulario').attr('action','/edit_rol');
         Movimiento="Editar"
@@ -42,6 +41,11 @@ $(document).ready(function(){
         $("#id").val(rol[0]);
         $("#nombre_rol").val(rol[1]);
     });
+    
+    function LimpiaCampos(){
+        $("#id").val("");
+        $("#nombre_rol").val("");
+    }
     
     function Habilita_Registro(){
         $("#Pnl_Registro").show();
@@ -60,6 +64,7 @@ $(document).ready(function(){
              data:"/all_roles",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 console.log(response)
                 tab.innerHTML +=

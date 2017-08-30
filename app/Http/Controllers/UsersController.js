@@ -17,7 +17,20 @@ class UsersController {
         yield response.sendView('master')
     }
     
+    * DatosCliente(request,response){
+        
+    }
     
+    *DatosUsuario(request,response){
+        const data = request.all()
+        console.log("ATOS", data)
+        var Tipo =  yield Database.table('users')
+        .join('roles_personas','users.id','=','roles_personas.personas_id')
+        .join('roles','roles_personas.roles_id','=','roles.id')
+        .where('users.id',data.id);
+        console.log(Tipo);
+        yield response.json({nombre_rol:Tipo[0].nombre_rol})
+    }
     
     * login(request, response) {
         var data = request.all()
@@ -34,7 +47,10 @@ class UsersController {
                 if( data.password=="abc1234"){
                     yield response.redirect('/menu');
                 }else{
-                    var Tipo =  yield Database.table('users').join('roles_personas','users.id','=','roles_personas.personas_id').join('roles','roles_personas.roles_id','=','roles.id').where('users.email',data.correo)
+                    var Tipo =  yield Database.table('users').join('roles_personas','users.id','=','roles_personas.personas_id').join('roles','roles_personas.roles_id','=','roles.id').where('users.email',data.correo);
+                     yield request.session.put('rol_usuario', Tipo[0].nombre_rol)
+                    console.log("AQUI");
+                    console.log(yield request.session.get('rol_usuario'));
                     if(Tipo[0].nombre_rol == 'Empleado'){
                         return response.send('funciona');
                     }else{
@@ -63,7 +79,7 @@ class UsersController {
     
     * insert(request,response){
         const data = request.all()
-        console.log(data)
+        //console.log(data)
         const validacion = yield Validator.validate(data, User.insertNvoRegistro)
         if(validacion.fails()){
             yield response.send('No se ingresaron correctamente los datos')
@@ -121,7 +137,6 @@ class UsersController {
      * update_persona(request,response){
         const data=request.all();
         const validacion = yield Validator.validate(data,User.validaActualizaUsuario)
-        console.log(data)
         const us=yield User.findBy('id', data.id_persona);
         us.nombre=data.nombre;
         us.a_paterno=data.a_paterno;
@@ -139,7 +154,6 @@ class UsersController {
      * update_empleado(request,response){
         const data=request.all();
         const validacion = yield Validator.validate(data,User.validaActualizaUsuario)
-        console.log(data)
         const us=yield User.findBy('id', data.id_persona);
         us.nombre=data.nombre;
         us.a_paterno=data.a_paterno;

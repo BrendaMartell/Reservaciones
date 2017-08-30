@@ -7,7 +7,16 @@ $(document).ready(function(){
     Carga_Datos("/all_ctes");
     Deshabilita_Registro();
     
-    
+    function LimpiaCampos(){
+        $("#id_persona").val("");
+        $("#nombre").val("");
+        $("#a_paterno").val("");
+        $("#a_materno").val("");
+        $("#direccion").val("");
+        $("#telefono").val("");
+        $("#email").val("");
+        $("#password").val("");
+    }
     
     $("#Btn_Registra").click(function(){
         $("#titulo_formulario").text("Registro de Nuevo Cliente");
@@ -16,6 +25,7 @@ $(document).ready(function(){
         $("#pwd").show();
         Movimiento="Alta";
         $('#formulario').attr('action','/menu/cte/in');
+        LimpiaCampos();
     });//final btin registra click
     
     $("#Btn_Cancela").click(function(){
@@ -26,6 +36,7 @@ $(document).ready(function(){
     
     $('#tbody').on('click', '.Btn_Editar', function(e) {
         e.preventDefault();
+        LimpiaCampos();
         $("#titulo_formulario").text("Edicion de Registro");
         $('#formulario').attr('action','/edit_cte');
         Movimiento="Editar"
@@ -67,6 +78,7 @@ $(document).ready(function(){
              data:"/all_ctes",
              datatype:'json'
          }).done(function(response){
+            tab.innerHTML ="";
             $.each(response,function(a,b){
                 console.log(response)
                 tab.innerHTML +=

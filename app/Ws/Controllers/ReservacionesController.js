@@ -7,13 +7,16 @@ class ReservacionesController {
     this.request = request
   }
     
-  onReservacion(info){
-      if(info.Estado = "Entrada"){
-          this.socket.inRoom('ReservacionAdministrador').emit('Reservacion', info)
-      }else{
-          this.socket.emit('Reservacion', info)
-      }
-  }
+  
+    
+    * onReservacion(info){
+        console.log("ENTRA ONRESERVACION "+ info);
+        if(info.estado == "entrada"){
+            this.socket.inRoom('ReservacionAdministrador').emit('reservacionsolicitud', info)
+        }else{
+            this.socket.exceptMe().emit('reservacion_cte', info);
+        }
+    }
 
 }
 
